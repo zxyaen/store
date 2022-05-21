@@ -1,0 +1,68 @@
+/* .body{
+    width: 100%;
+    height: 70%;
+    background-color: rgb(14, 137, 49);
+} */
+
+
+/* 版心 */
+.w {
+    width: 95%;
+    margin: 0 auto;
+  }
+  
+  body{
+    /* background-color: #f9c6ba; */
+  }
+  .body .col-sm img {
+    height: 150px;
+    width: 150px;
+    background-color: aliceblue;
+  }
+  .body .row {
+    margin-top: 10px;
+  }
+  
+  /* shortcut  start*/
+  
+  /* end */
+  
+  
+  
+  /* header部分 start */
+  
+  /* end */
+  
+  /* nav start */
+  
+  /* end */
+  
+  /* body start */
+  .hotSell,
+  .promotion,
+  .new{
+    text-align: center;
+    height: 90px;
+    line-height: 90px;
+  }
+  .hotSell .box,
+  .promotion .box,
+  .new .box{
+    position: relative;
+    /* display: inline-block; */
+    /* line-height: 90px; */
+    display: inline;
+    padding: 10px 15px;
+  
+    height: 40px;
+    border: 1px solid red;
+    border-radius: 4px;
+  }
+  /* .hotSell .box .line{
+    position: absolute;
+    width: 4px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: black;
+  } */
+  /* end */
