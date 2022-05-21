@@ -25,9 +25,14 @@
               </el-input>
             </el-form-item>
 
+            <el-form-item label="验证码" prop="checkPass">
+              <el-input type="text" v-model="ruleForm.checkPass"> </el-input>
+            </el-form-item>
+            <img :src="src" alt="" class="loginImg" @click="getCode()" />
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')"
-                >登录</el-button>
+                >登录</el-button
+              >
 
               <el-button @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
@@ -39,11 +44,6 @@
         </el-tab-pane>
       </el-tabs>
     </p>
-    <img
-      src="http://172.16.3.161:8080/examWeb_war_exploded/VerCode?"
-      alt=""
-      class="loginImg"
-    />
   </div>
 </template>
 
@@ -51,6 +51,8 @@
 import register from "./register.vue";
 import ShortCar from "./children/shortCar.vue";
 import HeaderTop from "./children/headerTop.vue";
+
+import { getCookie } from "@/network/cookie";
 
 export default {
   name: "login",
@@ -68,16 +70,25 @@ export default {
     };
 
     return {
+      src: "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?",
       activeName: "first",
       ruleForm: {
         name: "",
         pass: "",
         checkPass: "",
+        message: "",
+        session: "",
+        cookie: null,
       },
       rules: {
         name: [
           { required: true, message: "请输入您的名称", trigger: "blur" },
-          { min: 2, max: 5, message: "长度在 2 到 5 个字符", trigger: "blur" },
+          {
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
+            trigger: "blur",
+          },
         ],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
       },
@@ -85,6 +96,13 @@ export default {
   },
 
   methods: {
+    // 动态获取验证码
+    getCode() {
+      this.src =
+        "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?" +
+        Math.random();
+      console.log(this.cookie);
+    },
     //选项卡切换
     handleClick(tab, event) {},
     //重置表单
@@ -94,16 +112,44 @@ export default {
     //提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
+        console.log(this.ruleForm.name);
+        console.log(this.ruleForm.pass);
+        console.log(this.ruleForm.checkPass);
         if (valid) {
-          this.$message({
-            type: "success",
-            message: "登录成功",
-          });
-          this.$router.push("home");
-        } else {
-          console.log("error submit!!");
-          return false;
+          this.$axios({
+            method: "post",
+            url: "http://172.16.3.161:8080/examWeb_war_exploded/checkLogin",
+            params: {
+              loginName: this.ruleForm.name,
+              loginPwd: this.ruleForm.pass,
+              Check: this.ruleForm.checkPass,
+            },
+          })
+            .then(
+              function (response) {
+                if (response) {
+                  console.log(response);
+                  this.ruleForm.message = "登录成功!";
+                } else {
+                  this.ruleForm.message = response.data["msg"];
+                }
+              }.bind(this)
+            )
+            .catch(
+              function (response) {
+                this.ruleForm.message = "登录异常，请重新登录!";
+              }.bind(this)
+            );
         }
+        //   this.$message({
+        //     type: "success",
+        //     message: "登录成功",
+        //   });
+        //   // this.$router.push("home");
+        // } else {
+        //   console.log("error submit!!");
+        //   return false;
+        // }
       });
     },
   },
@@ -111,6 +157,18 @@ export default {
     register,
     ShortCar,
     HeaderTop,
+  },
+  created() {
+    // 获取cookie
+    getCookie().then((res) => {
+      this.cookie = res.JSESSIONID;
+      // console.log(this.cookie);
+    });
+    this.$Cookies.set("JSESSIONID", this.cookie, "1d");
+    // console.log(this.cookie);
+  },
+  mounted() {
+    // console.log(this.$Cookies.keys());
   },
 };
 </script>
