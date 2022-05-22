@@ -4,9 +4,8 @@ export function request(config) {
   // 创建axios实例
   const instance = new axios.create({
     // baseURL:'http://172.20.208.1:8080/examWeb_war_exploded/',
-    // baseURL: 'http://172.16.3.161:8080/examWeb_war_exploded/',
     baseURL:'/examWeb_war_exploded',
-    // baseURL:'http://152.136.185.210:7878/api/hy66',
+
     timeout: 5000
   });
 

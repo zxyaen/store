@@ -2,12 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 // 懒加载
-const Home = () => import('../components/home.vue')
-const Login = () => import('../components/login.vue')
-const Register = () =>import('../components/register.vue')
-const ShopCar = () =>import('../components/shopCar.vue')
-
-const Detail=()=>import('../components/detail.vue')
+const Home = () => import('views/home/home.vue')
+const Login = () => import('views/login/login')
+const Register = () =>import('views/login/register.vue')
+const ShopCar = () =>import('views/shopCar.vue')
+const Detail=()=>import('views/detail.vue')
+const Check=()=>import('views/check.vue')
 
 Vue.use(VueRouter)
 const routes = [
@@ -35,22 +35,13 @@ const routes = [
         path:'/shopcar',
         component:ShopCar
     },
-    //   {
-    //     path: '/category',
-    //     component: Category
-    //   },
-    //   {
-    //     path: '/cart',
-    //     component: Cart
-    //   },
-    //   {
-    //     path: '/me',
-    //     component: Me
-    //   },
+    {
+        path:'/check',
+        component:Check
+    },
       // 跳转到详情页
       {
-        // path:'/detail/:id',
-        path:'/detail',
+        path:'/detail/:id',
         component:Detail
       }
 ]

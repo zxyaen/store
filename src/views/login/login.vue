@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import register from "./register.vue";
-import ShortCar from "./children/shortCar.vue";
-import HeaderTop from "./children/headerTop.vue";
+import register from "../login/register.vue";
+import ShortCar from "components/shortCar.vue";
+import HeaderTop from "components/headerTop.vue";
 
 import {  checkLogin, getCode } from "@/network/cookie";
 

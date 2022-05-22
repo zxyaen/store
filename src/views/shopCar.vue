@@ -13,17 +13,17 @@
           <th>金额</th>
           <th>操作</th>
         </tr>
-        <tr v-for="book in books" :key="book.id">
+        <!-- <tr v-for="book in books" :key="book.id">
           <td><img :src="book.imgUrl" /></td>
           <td>
             <router-link
               :to="{ name: 'book', params: { id: book.id } }"
               target="_blank"
             >
-              {{ book.title }}
+              {{  }}
             </router-link>
           </td>
-          <td>{{ book.price | currency }}</td>
+          <td>{{  }}</td>
           <td>
             <button @click="handleSubtract(book, $event)">-</button>
             {{ book.quantity }}
@@ -33,17 +33,15 @@
           <td>
             <button @click="deleteCartItem(book.id)">删除</button>
           </td>
-        </tr>
+        </tr> -->
       </table>
 
-    <div>
-      保存？
-    </div>
-
+      <div>保存？</div>
 
       <p class="btnRight">
         <span><button class="checkout" @click="checkout">结算</button></span>
-        <span>总价：{{ cartTotalPrice | currency }}</span>
+        <span>总价：</span>
+        <!-- {{ cartTotalPrice | currency }} -->
       </p>
     </div>
   </div>
@@ -51,14 +49,14 @@
 
 <script>
 // import { mapGetters, mapState, mapMutations } from 'vuex'
-import HeaderTop from "./children/headerTop.vue";
-import ShortCar from "./children/shortCar.vue";
+import HeaderTop from "components/headerTop.vue";
+import ShortCar from "components/shortCar.vue";
 export default {
   name: "ShoppingCart",
   components: {
     HeaderTop,
-    ShortCar
-},
+    ShortCar,
+  },
   //   computed: {
   //     ...mapState('cart', {
   //       books: 'items'
@@ -70,37 +68,39 @@ export default {
   //   },
 
   methods: {
-    itemPrice(price, count) {
-      return price * count;
-    },
-    // ...mapMutations('cart', [
-    //   'deleteCartItem',
-    //   'incrementItemQuantity',
-    //   'setCartItems'
-    // ]),
-    handleAdd(id) {
-      this.incrementItemQuantity({ id: id, quantity: 1 });
-    },
-
-    handleSubtract(book, e) {
-      let quantity = book.quantity - 1;
-
-      if (quantity <= 0) {
-        e.target.disabled = true;
-        this.$msgBox.show({
-          title: "您确定要删除商品吗？",
-          cancel: "取消",
-          handleOk: () => this.deleteCartItem(book.id),
-          handleCancel: () => {
-            e.target.disabled = false;
-          },
-        });
-      } else this.incrementItemQuantity({ id: book.id, quantity: -1 });
-    },
+    // itemPrice(price, count) {
+    //   return price * count;
     checkout() {
       this.$router.push("/check");
     },
   },
+  // ...mapMutations('cart', [
+  //   'deleteCartItem',
+  //   'incrementItemQuantity',
+  //   'setCartItems'
+  // ]),
+  //     handleAdd(id) {
+  //       this.incrementItemQuantity({ id: id, quantity: 1 });
+  //     },
+
+  //     handleSubtract(book, e) {
+  //       let quantity = book.quantity - 1;
+
+  //       if (quantity <= 0) {
+  //         e.target.disabled = true;
+  //         this.$msgBox.show({
+  //           title: "您确定要删除商品吗？",
+  //           cancel: "取消",
+  //           handleOk: () => this.deleteCartItem(book.id),
+  //           handleCancel: () => {
+  //             e.target.disabled = false;
+  //           },
+  //         });
+  //       } else this.incrementItemQuantity({ id: book.id, quantity: -1 });
+  //     },
+
+  //   },
+  // };
 };
 </script>
 <style scoped>
@@ -146,7 +146,7 @@ export default {
   background-color: red;
   cursor: pointer;
 }
-.btnRight{
-    margin-top: 20px;
+.btnRight {
+  margin-top: 20px;
 }
 </style>

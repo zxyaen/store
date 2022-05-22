@@ -141,4 +141,5 @@ a:focus,*:focus {
 }
 a{
     color: rgb(213, 81, 81) !important;
+    text-decoration: none !important;
 }

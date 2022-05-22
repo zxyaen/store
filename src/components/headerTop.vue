@@ -2,16 +2,17 @@
   <!-- header部分 开始 -->
   <div class="w header">
     <!-- logo -->
-    <div>
+    <div class="logoBox">
       <div class="logo">
-        <p class="logoLf">
-          <router-link to="/"> logo </router-link>
-        </p>
-
-        <p class="logoRt">
-          支持货到付款<br />
-          点击关注店铺
-        </p>
+        <div class="logoLf">
+          <router-link to="/"> <img src="@/assets/logo.png" /> </router-link>
+        </div>
+        <a href="javascript:;">
+          <div class="logoRt">
+            支持货到付款<br />
+            点击关注店铺
+          </div>
+        </a>
         <!-- <img src="img/logo.png" alt="logo"> -->
       </div>
     </div>
@@ -19,7 +20,12 @@
     <div class="headerRight">
       <!-- search制作 -->
       <div class="search">
-        <input type="text" class="text" placeholder="请输入查找图书" v-model="Bname"/>
+        <input
+          type="text"
+          class="text"
+          placeholder="请输入查找图书"
+          v-model="Bname"
+        />
         <input type="button" class="btn" value="搜索" @click="Sbook(Bname)" />
       </div>
       <!-- shopcar -->
@@ -29,41 +35,35 @@
         <a class="shopCar"></a>
       </div>
     </div>
-
-    <!-- hotwords -->
-    <!-- <div class="hotwords">
-            <a href="#" class="style-red">优惠购首发</a>
-            <a href="#">9.9团购</a>
-            <a href="#">每满99减30</a>
-            <a href="#">办公用品</a>
-            <a href="#">电脑</a>
-            <a href="#">通信</a>
-
-        </div> -->
   </div>
   <!-- 结束 -->
 </template>
 
 <script>
-import {searchBook} from '@/network/goods';
+import { searchBook } from "@/network/goods";
 export default {
   name: "headerTop",
   data() {
     return {
-      Bname: '',
+      Bname: "",
     };
   },
   methods: {
-    Sbook(Bname){
-      searchBook(Bname).then((res)=>{
+    Sbook(Bname) {
+      searchBook(Bname).then((res) => {
         console.log(res);
-      })
-    }
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
+/* .logo{
+  width: 50px;
+  height: 50px;
+  background-image: url('@/assets/logo.png');
+} */
 .header {
   display: flex;
   align-items: center;
@@ -95,5 +95,6 @@ export default {
 }
 .header .logoRt {
   font-size: 0.5em;
+  margin-top: 10px;
 }
 </style>

@@ -1,15 +1,13 @@
 <template>
   <div class="booksNew">
-    <hr />
-    <h3>新书上市</h3>
     <div class="wrap">
-      <router-link to="/detail" class="book" v-for="book in res" :key="book.id" @click="pushToDetail">
-        <img :src="book.bookimg" />
+      <div class="book" @click="bookDetail">
+        <img :src="goodItem.bookImg" />
         <div class="info">
-          <div class="name">{{ book.bookname }}</div>
-          <div class="price">{{ book.bookprice }}¥</div>
+          <div class="name">{{ goodItem.bookName }}</div>
+          <div class="price">{{ goodItem.bookPrice }}¥</div>
         </div>
-      </router-link>
+      </div>
 
       <!-- 
       <p>
@@ -21,10 +19,18 @@
 </template>
 
 <script>
-import { getBooks } from "@/network/goods";
+
 
 export default {
   name: "",
+  props: {
+    goodItem: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
 
   data() {
     return {
@@ -33,17 +39,12 @@ export default {
     };
   },
   created() {
-    getBooks().then((res) => {
-      // console.log(res);
-      this.res = res;
-    });
-    // 事件总线
-    this.$bus.$emit('info',this.res)
+
   },
   methods: {
-    pushToDetail(){
-      this.$store.state.bookno=this.res.bookno
-    }
+    bookDetail() {
+      this.$router.push("/detail/" + this.goodItem.bookId);
+    },
   },
 };
 </script>
@@ -66,6 +67,7 @@ h3 {
   width: 49%;
   display: flex;
   margin: 15px 0;
+  cursor: pointer;
   /* border-right: solid 1px #ccc; */
   /* margin-left: 10px; */
 }
