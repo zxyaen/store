@@ -5,9 +5,9 @@ import VueRouter from 'vue-router'
 const Home = () => import('views/home/home.vue')
 const Login = () => import('views/login/login')
 const Register = () =>import('views/login/register.vue')
-const ShopCar = () =>import('views/shopCar.vue')
+const ShopCar = () =>import('views/shopCar/shopCar.vue')
 const Detail=()=>import('views/detail/detail.vue')
-const Check=()=>import('views/check.vue')
+const Check=()=>import('views/check/check.vue')
 
 Vue.use(VueRouter)
 const routes = [
@@ -42,6 +42,7 @@ const routes = [
       // 跳转到详情页
       {
         path:'/detail/:id',
+        name:'Detail',
         component:Detail
       }
 ]

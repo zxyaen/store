@@ -6,79 +6,94 @@
     <div class="shoppingCart">
       <table>
         <tr>
-          <th></th>
+          <th>全选</th>
           <th>商品名称</th>
           <th>单价</th>
           <th>数量</th>
           <th>金额</th>
           <th>操作</th>
         </tr>
-        <!-- <tr v-for="book in books" :key="book.id">
-          <td><img :src="book.imgUrl" /></td>
+        <tr v-for="item in getCart">
+          <td><img :src="item.img" /></td>
           <td>
             <router-link
-              :to="{ name: 'book', params: { id: book.id } }"
+              :to="{ name: 'Detail', params: { id: item.id } }"
               target="_blank"
             >
-              {{  }}
+              {{ item.name }}
             </router-link>
           </td>
-          <td>{{  }}</td>
+          <td>{{ item.price }}</td>
           <td>
-            <button @click="handleSubtract(book, $event)">-</button>
-            {{ book.quantity }}
-            <button @click="handleAdd(book.id)">+</button>
+            <!-- <button @click="handleSubtract(book, $event)">-</button> -->
+            {{ item.buyNum }}
+            <!-- <button @click="handleAdd(book.id)">+</button> -->
           </td>
-          <td>{{ cartItemPrice(book.id) | currency }}</td>
+          <!-- <td>{{ cartItemPrice(item.id) | currency }}</td> -->
+          <td>{{ itemPrice(item.price,item.buyNum) }}</td>
           <td>
-            <button @click="deleteCartItem(book.id)">删除</button>
+            <button @click="deleteCartItem(item.id)">删除</button>
           </td>
-        </tr> -->
+        </tr>
       </table>
 
       <div>保存？</div>
+      <button @click="deleteCartItem(item.id)">删除</button>
+          <td>{{ itemPrice(price,num) }}</td>
 
+      <div v-for="item in getCart">
+        <div>{{ item.name }}</div>
+      </div>
       <p class="btnRight">
         <span><button class="checkout" @click="checkout">结算</button></span>
-        <span>总价：</span>
-        <!-- {{ cartTotalPrice | currency }} -->
+        <!-- <span>总价： {{ cartTotalPrice | currency }}</span> -->
       </p>
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters, mapState, mapMutations } from 'vuex'
+import { mapGetters, mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
 export default {
   name: "ShoppingCart",
+  data() {
+    return {
+      price:2,
+      num:12
+    }
+  },
   components: {
     HeaderTop,
     ShortCar,
   },
-  //   computed: {
-  //     ...mapState('cart', {
-  //       books: 'items'
-  //     }),
-  //     ...mapGetters('cart', [
-  //       'cartItemPrice',
-  //       'cartTotalPrice'
-  //     ])
-  //   },
+  computed: {
+    // 利用计算属性，获取到vuex中state数据
+    getCart() {
+      return this.$store.state.cartList;
+    },
+
+    // ...mapGetters(["cartItemPrice", "cartTotalPrice"]),
+  },
+
+  mounted() {},
 
   methods: {
-    // itemPrice(price, count) {
-    //   return price * count;
+    ...mapMutations([
+      "deleteCartItem",
+      "incrementItemQuantity",
+      "setCartItems",
+    ]),
+    // 计算单项价格
+    itemPrice(price, count) {
+      return price * count;
+    },
     checkout() {
       this.$router.push("/check");
     },
   },
-  // ...mapMutations('cart', [
-  //   'deleteCartItem',
-  //   'incrementItemQuantity',
-  //   'setCartItems'
-  // ]),
+
   //     handleAdd(id) {
   //       this.incrementItemQuantity({ id: id, quantity: 1 });
   //     },

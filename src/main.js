@@ -8,6 +8,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import Cookies from 'vue-cookies'
 
+// 全局注册过滤器
+import { currency, factPrice, formatTime } from './utils/filters'
+Vue.filter('currency', currency)
+Vue.filter('factPrice', factPrice)
+Vue.filter('formatTime', formatTime)
+
+
 const bus = new Vue()
 Vue.prototype.$bus = bus;
 

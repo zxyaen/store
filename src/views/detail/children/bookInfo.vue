@@ -38,31 +38,40 @@ export default {
   },
   props: ["bookId"],
   methods: {
-    // 添加书
+    // 消息提示
+    open() {
+      this.$message({
+        message: "添加购物车成功",
+        type: "success",
+      });
+    },
+    // 添加书到购物车
     AddBook(bookId, bookNum) {
-      // console.log(bookId);
       addBook(bookId, bookNum).then((res) => {
         if (res.result === "ok") {
           this.open();
+          // 返回ok添加成功
+          console.log(res);
+          // 获取购物车图书需要信息
+          const bookInfo = {};
+          bookInfo.name = this.res.bookName;
+          bookInfo.img = this.res.bookImg;
+          bookInfo.id = this.res.bookId;
+          bookInfo.price = this.res.bookPrice;
+          bookInfo.buyNum = this.buyNum;
+          // 将信息添加到vuex中托管，进一步添加到购物车中
+          this.$store.commit("pushProductToCart", bookInfo);
         }
-        console.log(res);
       });
     },
   },
-  // 消息提示
-  open() {
-    this.$message({
-      message: "添加购物车成功",
-      type: "success",
-    });
-  },
+
   created() {
     // 保存传入detail的bookno
     // this.bookId = this.$route.params.id;
     // 发送请求获取图书数据
 
     getBooks().then((res) => {
-
       //将bookId与点击到的相应bookId对比，相同的传信息给bookDetail进行渲染
       for (let i = 1; i < Object.keys(res).length + 1; i++) {
         if (res[i].bookId === this.bookId) {
