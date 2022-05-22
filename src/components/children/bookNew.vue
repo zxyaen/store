@@ -3,13 +3,13 @@
     <hr />
     <h3>新书上市</h3>
     <div class="wrap">
-      <div class="book" v-for="book in res" :key="book.id">
+      <router-link to="/detail" class="book" v-for="book in res" :key="book.id" @click="pushToDetail">
         <img :src="book.bookimg" />
         <div class="info">
           <div class="name">{{ book.bookname }}</div>
           <div class="price">{{ book.bookprice }}¥</div>
         </div>
-      </div>
+      </router-link>
 
       <!-- 
       <p>
@@ -37,14 +37,13 @@ export default {
       console.log(res);
       this.res = res;
     });
-    //   this.axios.get("/book/new")
-    //   .then(response => {
-    //     if(response.status == 200){
-    //       this.loading = false;
-    //       this.books = response.data;
-    //     }
-    //   })
-    //   .catch(error => alert(error));
+    // 事件总线
+    this.$bus.$emit('info',this.res)
+  },
+  methods: {
+    pushToDetail(){
+      this.$store.state.bookno=this.res.bookno
+    }
   },
 };
 </script>
