@@ -72,13 +72,14 @@ export default {
     return {
       src: "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?",
       activeName: "first",
+      cookieId: "",
+
       ruleForm: {
         name: "",
         pass: "",
         checkPass: "",
         message: "",
         session: "",
-        cookie: null,
       },
       rules: {
         name: [
@@ -141,15 +142,6 @@ export default {
               }.bind(this)
             );
         }
-        //   this.$message({
-        //     type: "success",
-        //     message: "登录成功",
-        //   });
-        //   // this.$router.push("home");
-        // } else {
-        //   console.log("error submit!!");
-        //   return false;
-        // }
       });
     },
   },
@@ -160,16 +152,19 @@ export default {
   },
   created() {
     // 获取cookie
+      sessionStorage.setItem("token",1123);
+
     getCookie().then((res) => {
-      this.cookie = res.JSESSIONID;
-      // console.log(this.cookie);
+      this.cookieId = res.JSESSIONID;
+      console.log(res);
+
+      sessionStorage.setItem("JSESSIONID",1234); // 设置cookie,默认过期时间单位是1d(1天)
+      // this.$cookie.set('token',token,10) 过期时间是10天
     });
-    this.$Cookies.set("JSESSIONID", this.cookie, "1d");
-    // console.log(this.cookie);
+    // this.$Cookies.set("JSESSIONID", this.cookieId, "1d");
+    // },
   },
-  mounted() {
-    // console.log(this.$Cookies.keys());
-  },
+  mounted() {},
 };
 </script>
 
