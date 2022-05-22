@@ -6,7 +6,7 @@ const Home = () => import('views/home/home.vue')
 const Login = () => import('views/login/login')
 const Register = () =>import('views/login/register.vue')
 const ShopCar = () =>import('views/shopCar.vue')
-const Detail=()=>import('views/detail.vue')
+const Detail=()=>import('views/detail/detail.vue')
 const Check=()=>import('views/check.vue')
 
 Vue.use(VueRouter)

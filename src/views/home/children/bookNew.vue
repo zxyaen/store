@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     bookDetail() {
+      // console.log(this.goodItem.bookId);
       this.$router.push("/detail/" + this.goodItem.bookId);
     },
   },
