@@ -2,6 +2,7 @@
   <div>
     <ShortCar />
     <HeaderTop />
+
     <div class="shoppingCart">
       <table>
         <tr>
@@ -34,6 +35,12 @@
           </td>
         </tr>
       </table>
+
+    <div>
+      保存？
+    </div>
+
+
       <p class="btnRight">
         <span><button class="checkout" @click="checkout">结算</button></span>
         <span>总价：{{ cartTotalPrice | currency }}</span>

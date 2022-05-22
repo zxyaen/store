@@ -34,7 +34,7 @@ export default {
   },
   created() {
     getBooks().then((res) => {
-      console.log(res);
+      // console.log(res);
       this.res = res;
     });
     // 事件总线

@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { getCode, login } from "@/network/cookie";
 export default {
   name: "register",
   data() {
@@ -65,13 +66,13 @@ export default {
     };
 
     return {
-      src: "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?",
+      src: null,
       activeName: "second",
       ruleForm: {
         name: "",
         pass: "",
         checkPass: "",
-		code:'',
+        code: "",
       },
       rules: {
         name: [
@@ -90,39 +91,36 @@ export default {
       },
     };
   },
+  mounted() {
+    getCode().then((res) => {
+      this.src = window.URL.createObjectURL(res);
+    });
+  },
 
   methods: {
     // 动态获取验证码
     getCode() {
-      this.src =
-        "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?" +
-        Math.random();
+      getCode().then((res) => {
+        this.src = window.URL.createObjectURL(res);
+      });
+    },
+    // 弹窗
+    openLogin() {
+      this.$alert("注册成功，请登录", {
+        confirmButtonText: "确定",
+      });
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        // console.log(this.ruleForm.name);
-        // console.log(this.ruleForm.pass);
-        // console.log(this.ruleForm.checkPass);
         if (valid) {
-          this.$axios({
-            method: "post",
-            url: "http://172.16.3.161:8080/examWeb_war_exploded/logIn",
-            params: {
-              name: this.ruleForm.name,
-              pwd: this.ruleForm.pass,
-              Check: this.ruleForm.code,
-            },
-          })
+          login(this.ruleForm.name, this.ruleForm.pass, this.ruleForm.code)
             .then(
               function (response) {
-				  console.log(response);
-                if (response.data.result === "ok") {
+                console.log(response);
+                if (response.result === "successSignIn") {
                   console.log("ok");
-                  this.ruleForm.message = "登录成功!";
-                  this.$router.push("/home");
-                  this.open();
-                } else {
-                  this.ruleForm.message = "成功";
+                  this.openLogin();
+                  this.$router.push("/login");
                 }
               }.bind(this)
             )
@@ -133,18 +131,6 @@ export default {
             );
         }
       });
-      // this.$refs[formName].validate(valid => {
-      // 	if (valid) {
-      // 		this.$message({
-      // 			type: 'success',
-      // 			message: '注册成功'
-      // 		});
-      // 		// this.activeName: 'first',
-      // 	} else {
-      // 		console.log('error submit!!');
-      // 		return false;
-      // 	}
-      // });
     },
 
     resetForm(formName) {
@@ -154,12 +140,11 @@ export default {
 };
 </script>
 
-<style  scoped>
-.loginImg{
+<style scoped>
+.loginImg {
   position: absolute;
-  top:215px;
+  top: 215px;
   right: 5px;
   border-radius: 4px;
 }
-
 </style>

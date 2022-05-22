@@ -31,7 +31,6 @@
             <!-- 验证码 -->
             <img :src="src" alt="" class="loginImg" @click="getCode()" />
             <el-form-item>
-              
               <el-button type="primary" @click="submitForm('ruleForm')"
                 >登录</el-button
               >
@@ -54,7 +53,7 @@ import register from "./register.vue";
 import ShortCar from "./children/shortCar.vue";
 import HeaderTop from "./children/headerTop.vue";
 
-import { getCookie,checkLogin,getCode } from "@/network/cookie";
+import {  checkLogin, getCode } from "@/network/cookie";
 
 export default {
   name: "login",
@@ -72,7 +71,7 @@ export default {
     };
 
     return {
-      src: "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?",
+      src: null,
       activeName: "first",
 
       ruleForm: {
@@ -95,22 +94,15 @@ export default {
       },
     };
   },
-  computed:{
-
-  },
+  computed: {},
 
   methods: {
     // 动态获取验证码
 
     getCode() {
-      getCode().then((res)=>{
-        this.src=res
-        console.log(res);
-      })
-
-      // this.src =
-      //   "http://172.16.3.161:8080/examWeb_war_exploded/VerCode?" +Math.random();
-      // console.log(this.cookie);
+      getCode().then((res) => {
+        this.src = window.URL.createObjectURL(res);
+      });
     },
     //选项卡切换
     handleClick(tab, event) {},
@@ -121,27 +113,19 @@ export default {
     //提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
-        // console.log(this.ruleForm.name);
-        // console.log(this.ruleForm.pass);
-        // console.log(this.ruleForm.checkPass);
         if (valid) {
-          checkLogin( this.ruleForm.name, this.ruleForm.pass, this.ruleForm.checkPass)
-          // this.$axios({
-          //   method: "post",
-          //   url: "http://172.16.3.161:8080/examWeb_war_exploded/checkLogin",
-          //   params: {
-          //     loginName: this.ruleForm.name,
-          //     loginPwd: this.ruleForm.pass,
-          //     Check: this.ruleForm.checkPass,
-          //   },
-          // })
-            .then(
+          checkLogin(
+            this.ruleForm.name,
+            this.ruleForm.pass,
+            this.ruleForm.checkPass
+          ) .then(
               function (response) {
-                if (response.data.result === "ok") {
+                console.log(response);
+                if (response.result === "ok") {
                   console.log("ok");
                   this.ruleForm.message = "登录成功!";
                   this.$router.push("/home");
-                  this.open()
+                  this.open();
                 } else {
                   this.ruleForm.message = "成功";
                 }
@@ -157,39 +141,23 @@ export default {
     },
     // 弹窗
     open() {
-      this.$alert("登录成功", {
-        // confirmButtonText: "确定",
-        // callback: (action) => {
-        //   this.$message({
-        //     type: "info",
-        //     // message: `action: ${action}`,
-        //   });
-        // },
-      });
-    }
+      this.$alert("登录成功", {});
+    },
   },
-    components: {
-      register,
-      ShortCar,
-      HeaderTop,
-    },
-    created() {
-      // // 获取cookie
-      // sessionStorage.setItem("token", 1123);
+  components: {
+    register,
+    ShortCar,
+    HeaderTop,
+  },
+  created() {
 
-      // getCookie().then((res) => {
-      //   this.cookieId = res.JSESSIONID;
-      //   console.log(res);
-
-      //   sessionStorage.setItem("JSESSIONID", 1234); // 设置cookie,默认过期时间单位是1d(1天)
-      //   // this.$cookie.set('token',token,10) 过期时间是10天
-      // });
-      // // this.$Cookies.set("JSESSIONID", this.cookieId, "1d");
-      // // },
-    },
-    mounted() {},
-}
-
+  },
+  mounted() {
+    getCode().then((res) => {
+      this.src = window.URL.createObjectURL(res);
+    });
+  },
+};
 </script>
 
 <style>
@@ -197,9 +165,9 @@ export default {
   width: 400px;
   margin: 0 auto;
 }
-.loginImg{
+.loginImg {
   position: absolute;
-  top:145px;
+  top: 145px;
   right: 5px;
   border-radius: 4px;
 }

@@ -2,8 +2,18 @@
   <div>
     <ShortCar />
     <HeaderTop />
-
-    <div class="detail" v-for="item in res">
+    <p>这是详情页</p>
+    <button @click="AddBook(5,12)">加入购物车</button>
+    <button @click="ShowCart">显示购物车</button>
+    <div v-for="item in bookInfo">
+ 
+       数量： {{ item.booknumber }}
+       名字： {{ item.bookname }}
+       加个： {{ item.bookprice }}
+       <!-- 总价：{{item.bookNum * item.bookprice}} -->
+       <span @click="RemoveBook(5,2)">删除</span>
+    </div>
+    <!-- <div class="detail" v-for="item in res">
       <div class="detail-info-img">
         <img src="@/assets/image/bg.jpg" alt="" />
       </div>
@@ -13,33 +23,52 @@
         <p>商品数量：{{ item.booknumber }}</p>
         <button>加入购物车</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import ShortCar from "./children/shortCar.vue";
 import HeaderTop from "./children/headerTop.vue";
+
+import { addBook, showCart ,removeBook} from "@/network/shopCar";
 export default {
   name: "detail",
   data() {
     return {
       res: null,
-      bookno,
+      bookno: "",
+      bookInfo: null,
     };
   },
   methods: {
-
+    // 添加书
+    AddBook(bookId, bookNum) {
+      // console.log(bookId);
+      addBook(bookId, bookNum).then((res) => {
+        console.log(res);
+      });
+    },
+    // 展示书
+    ShowCart() {
+      showCart().then((res) => {
+        this.bookInfo = res;
+        console.log(res);
+      });
+    },
+    // 删除书
+    RemoveBook(id,num){
+      removeBook(id,num).then((res)=>{
+        console.log(res);
+      })
+    }
   },
   created() {
-    this.$bus.$on('info',(res)=>{
+    this.$bus.$on("info", (res) => {
       console.log(res);
-    })
-
+    });
   },
-  mounted() {
-    this.bookno=this.$store.state.bookno
-  },
+  mounted() {},
   components: { ShortCar, HeaderTop },
 };
 </script>

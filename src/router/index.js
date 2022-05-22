@@ -14,12 +14,12 @@ const routes = [
     {
         // 指定一进入页面跳转到home页
         path: '',
+
         redirect: '/home'
     },
     // 对页面跳转的控制
     {
         path: '/home',
-
         // 指定的组件
         component: Home
     },
