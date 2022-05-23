@@ -15,6 +15,9 @@ import BookInfo from "./children/bookInfo.vue";
 import HomeFooter from "components/homeFooter.vue";
 
 import { showCart, removeBook } from "@/network/shopCar";
+
+import {  mapMutations } from "vuex";
+
 export default {
   name: "detail",
   data() {
@@ -23,6 +26,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["IsHomeFalse"]),
     /**
      * 购物车部分内容
      * */
@@ -38,6 +42,8 @@ export default {
   created() {
     // 保存传入detail的bookId
     this.bookId = this.$route.params.id;
+    // 改变isHome值，使搜索框不被渲染
+    this.IsHomeFalse()
 
   },
   components: {

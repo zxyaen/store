@@ -47,7 +47,11 @@
       </table>
 
       <p class="btnRight">
-        <span> <el-button plain  type="primary" @click="checkout" class="check">结算</el-button></span>
+        <span>
+          <el-button plain type="primary" @click="checkout" class="check"
+            >结算</el-button
+          ></span
+        >
         <!-- <span><button class="checkout" >结算</button></span> -->
         <span v-show="total" class="total">总计：{{ total }}</span>
       </p>
@@ -82,8 +86,9 @@ export default {
   },
 
   mounted() {
-
-    this.handleChange()
+    this.handleChange(),
+      // 改变isHome值，使搜索框不被渲染
+      this.IsHomeFalse();
   },
 
   methods: {
@@ -92,11 +97,10 @@ export default {
       "incrementItemQuantity",
       "setCartItems",
       "cartTotalPrice",
-      // "changeBookNum",
+      "IsHomeFalse",
     ]),
     // 计数器
     handleChange() {
-      // console.log(value);
       this.cartTotalPrice();
       this.total = this.allPrice;
     },
@@ -112,7 +116,7 @@ export default {
     removeBook(id) {
       this.deleteCartItem(id);
       this.open();
-      this.handleChange()
+      this.handleChange();
     },
 
     // 计算单项价格
@@ -169,10 +173,10 @@ export default {
   align-items: center;
   /* justify-content: center; */
 }
-.check{
+.check {
   margin-right: 30px;
 }
-.total{
-  margin-right:30px ;
+.total {
+  margin-right: 30px;
 }
 </style>

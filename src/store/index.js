@@ -10,10 +10,24 @@ export default new Vuex.Store({
         cartList: [],
         // 总价
         allPrice: null,
+        // 控制搜索框只在主页显示
+        isHome: false
 
     },
     mutations: { // 用来修改state和getters里面的数据
-        //消息弹窗
+        // 改变isHome的值来达到动态显示
+        changeIsHome(state) {
+            if (!state.isHome) {
+                state.isHome = !state.isHome
+            }
+            // console.log(object);
+        },
+        IsHomeFalse(state){
+            if (state.isHome) {
+                state.isHome = !state.isHome
+            }
+            console.log("222");
+        },
 
 
 
@@ -42,11 +56,11 @@ export default new Vuex.Store({
         },
         // 计算购物车中所有商品的总价
         cartTotalPrice: (state) => {
-            let p =0
+            let p = 0
             for (let i = 0; i < state.cartList.length; i++) {
-                p =  p +state.cartList[i].buyNum *state.cartList[i].price
+                p = p + state.cartList[i].buyNum * state.cartList[i].price
             }
-            state.allPrice=p
+            state.allPrice = p
         },
 
     },

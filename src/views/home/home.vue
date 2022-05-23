@@ -12,12 +12,13 @@
 <script>
 import ShortCar from "components/shortCar.vue";
 import HeaderTop from "components/headerTop.vue";
-// import HomeNav from "components/homeNav.vue";
 import HomeBanner from "components/homeBanner.vue";
 import HomeBody from "./children/homeBody.vue";
 import HomeFooter from "components/homeFooter.vue";
 
 import BackTop from "components/backTop.vue";
+
+import {  mapMutations } from "vuex";
 
 export default {
   name: "home",
@@ -35,11 +36,11 @@ export default {
     BackTop,
   },
   methods: {
-    handleChange(value) {
-      console.log(value);
-    },
+    ...mapMutations(["changeIsHome"])
   },
-  created() {},
+  created() {
+    this.changeIsHome()
+  },
 };
 </script>
 

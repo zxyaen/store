@@ -53,7 +53,10 @@ import register from "../login/register.vue";
 import ShortCar from "components/shortCar.vue";
 import HeaderTop from "components/headerTop.vue";
 
-import {  checkLogin, getCode } from "@/network/cookie";
+import { checkLogin, getCode } from "@/network/cookie";
+
+import {  mapMutations } from "vuex";
+
 
 export default {
   name: "login",
@@ -97,6 +100,7 @@ export default {
   computed: {},
 
   methods: {
+    ...mapMutations(["IsHomeFalse"]),
     // 动态获取验证码
 
     getCode() {
@@ -118,7 +122,8 @@ export default {
             this.ruleForm.name,
             this.ruleForm.pass,
             this.ruleForm.checkPass
-          ) .then(
+          )
+            .then(
               function (response) {
                 console.log(response);
                 if (response.result === "ok") {
@@ -150,7 +155,8 @@ export default {
     HeaderTop,
   },
   created() {
-
+    // 改变isHome值，使搜索框不被渲染
+    this.IsHomeFalse();
   },
   mounted() {
     getCode().then((res) => {
