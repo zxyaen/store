@@ -23,7 +23,7 @@
               {{ item.name }}
             </router-link>
           </td>
-          <td>{{ item.price }}</td>
+          <td>{{ item.price }} 元</td>
           <td>
             <el-input-number
               v-model="item.buyNum"
@@ -36,12 +36,13 @@
           </td>
           <td>{{ itemPrice(item.price, item.buyNum) }}</td>
           <td>
-            <el-button
-              type="danger"
-              icon="el-icon-delete"
-              circle
-              @click="removeBook(item.id)"
-            ></el-button>
+            <el-popconfirm
+              title="确定删除商品吗？"
+              @confirm="removeBook(item.id)"
+            >
+              <el-button slot="reference">删除</el-button>
+            </el-popconfirm>
+ 
           </td>
         </tr>
       </table>
@@ -50,13 +51,13 @@
         <span>
           <el-button plain type="primary" @click="checkout" class="check"
             >结算</el-button
-          ></span
-        >
-        <!-- <span><button class="checkout" >结算</button></span> -->
-        <span v-show="total" class="total">总计：{{ total }}</span>
+          >
+        </span>
+        <span v-show="total" class="total">总计：{{ total }} 元</span>
       </p>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -177,6 +178,12 @@ export default {
   margin-right: 30px;
 }
 .total {
+  border: 1px solid #d3dce6;
+  border-radius: 4px;
+  padding: 7px 10px;
   margin-right: 30px;
+  cursor: pointer;
+
 }
+
 </style>

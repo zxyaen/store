@@ -16,10 +16,11 @@
         ></el-input-number>
       </div>
       <div class="addBookBtnBox">
-        <el-button round @click="AddBook(bookId, buyNum)" class="addBookBtn"
+        <el-button round @click="AddBook()" class="addBookBtn"
           >加入购物车</el-button
         >
       </div>
+
     </div>
   </div>
 </template>
@@ -34,6 +35,7 @@ export default {
     return {
       res: "",
       buyNum: "1",
+      banner:null,
     };
   },
   props: ["bookId"],
@@ -46,13 +48,9 @@ export default {
       });
     },
     // 添加书到购物车
-    AddBook(bookId, bookNum) {
-      addBook(bookId, bookNum).then((res) => {
-        if (res.result === "ok") {
-          this.open();
-          // 返回ok添加成功
-          console.log(res);
-          // 获取购物车图书需要信息
+    AddBook( ) {
+       this.open();
+                 // 获取购物车图书需要信息
           const bookInfo = {};
           bookInfo.name = this.res.bookName;
           bookInfo.img = this.res.bookImg;
@@ -61,19 +59,16 @@ export default {
           bookInfo.buyNum = this.buyNum;
           // 将信息添加到vuex中托管，进一步添加到购物车中
           this.$store.commit("pushProductToCart", bookInfo);
-        }
-      });
     },
   },
 
   created() {
-    // 保存传入detail的bookno
-    // this.bookId = this.$route.params.id;
-    // 发送请求获取图书数据
 
     getBooks().then((res) => {
+      console.log(res);
+      this.banner=res.banner
       //将bookId与点击到的相应bookId对比，相同的传信息给bookDetail进行渲染
-      for (let i = 1; i < Object.keys(res).length + 1; i++) {
+      for (let i = 1; i < Object.keys(res).length ; i++) {
         if (res[i].bookId === this.bookId) {
           this.res = res[i];
         }

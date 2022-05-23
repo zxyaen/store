@@ -1,8 +1,10 @@
 <template>
   <div class="box">
-          <hr />
+    <hr />
     <h3 class="title">新书上市</h3>
-    <BookNew v-for="item in res" :good-item="item"/>
+    <div class="bookNew">
+      <BookNew v-for="item in res" :good-item="item" class="item"/>
+    </div>
     <!-- <p>123</p> -->
   </div>
 </template>
@@ -14,9 +16,9 @@ import BookNew from "./bookNew.vue";
 export default {
   name: "homeBody",
   data() {
-      return {
-          res: '',
-      };
+    return {
+      res: "",
+    };
   },
   components: {
     BookNew,
@@ -35,8 +37,26 @@ export default {
 .box {
   /* width: 100%; */
 }
-.title{
+.title {
   text-align: center;
   padding: 20px 0;
+}
+.bookNew{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.item{
+  flex: 1;
+      height: 120px;
+    margin: 0 5px 5px 0; 
+    background-color: rgba(191, 216, 220, 0.2);
+    width: calc((100% - 10px) / 3);  
+    min-width: calc((100% - 10px) / 3); 
+    /* max-width: calc((100% - 10px) / 3);  */
+    /* &:nth-child(3n) { 
+      margin-right: 0;
+    } */
+
 }
 </style>

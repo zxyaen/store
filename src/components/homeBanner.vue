@@ -1,68 +1,64 @@
 <template>
-    <div
-      id="carouselExampleIndicators"
-      class="carousel slide"
-      data-ride="carousel"
-    >
-      <ol class="carousel-indicators">
-        <li
-          data-target="#carouselExampleIndicators"
-          data-slide-to="0"
-          class="active"
-        ></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            src="@/assets/image/banner/banner1.jpeg"
-            class="d-block w-100"
-            alt="..."
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            src="@/assets/image/banner/baner2.jpeg"
-            class="d-block w-100"
-            alt="..."
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            src="@/assets/image/banner/banner3.jpeg"
-            class="d-block w-100"
-            alt="..."
-          />
-        </div>
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-target="#carouselExampleIndicators"
-        data-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-target="#carouselExampleIndicators"
-        data-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </button>
-    </div>
+  <div id="banner">
+    <el-carousel :interval="4000" type="card" height="200px">
+      <el-carousel-item>
+        <img src="@/assets/image/banner/banner1.png" alt="..." />
+      </el-carousel-item>
+      <el-carousel-item class="box">
+        <img src="@/assets/image/banner/banner2.png" alt="..." />
+      </el-carousel-item>
+      <el-carousel-item>
+        <img
+          src="@/assets/image/banner/banner3.png"
+          alt="..."
+          @click="bookDetail"
+        />
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
 export default {
-name:'homeBanner'
-}
+  name: "homeBanner",
+  data() {
+    return {};
+  },
+  methods: {
+    bookDetail() {
+      this.$router.push("/detail/" + 1);
+    },
+  },
+};
 </script>
 
-<style>
+<style scoped>
+#banner{
+  margin: 20px 0;
+  padding-top: 30px;
+  border-top:1px solid #475669 ;
+}
+.box{
+  width: 100%;
+  height: 100%;
+}
+img{
+  width: 100%;
+  height: 100%;
+}
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
 
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
 </style>

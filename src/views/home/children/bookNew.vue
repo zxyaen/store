@@ -53,15 +53,14 @@ h3 {
   text-align: center;
   margin: 10px;
 }
-.wrap {
+/* .wrap {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
+} */
 .booksNew .book {
-  width: 49%;
   display: flex;
-  margin: 15px 0;
+  margin: 10px;
   cursor: pointer;
   /* border-right: solid 1px #ccc; */
   /* margin-left: 10px; */

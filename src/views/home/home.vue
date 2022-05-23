@@ -29,7 +29,7 @@ export default {
   components: {
     ShortCar,
     HeaderTop,
-    // HomeNav,
+
     HomeBanner,
     HomeBody,
     HomeFooter,
