@@ -10,7 +10,7 @@
           <th>商品名称</th>
           <th>单价</th>
           <th>数量</th>
-          <th>金额</th>
+          <th>总价</th>
           <th>操作</th>
         </tr>
         <tr v-for="item in getCart">
@@ -25,28 +25,31 @@
           </td>
           <td>{{ item.price }}</td>
           <td>
-            <!-- <button @click="handleSubtract(book, $event)">-</button> -->
-            {{ item.buyNum }}
-            <!-- <button @click="handleAdd(book.id)">+</button> -->
+            <el-input-number
+              v-model="item.buyNum"
+              @change="handleChange"
+              :min="1"
+              :max="99"
+              size="mini"
+              label="描述文字"
+            ></el-input-number>
           </td>
-          <!-- <td>{{ cartItemPrice(item.id) | currency }}</td> -->
-          <td>{{ itemPrice(item.price,item.buyNum) }}</td>
+          <td>{{ itemPrice(item.price, item.buyNum) }}</td>
           <td>
-            <button @click="deleteCartItem(item.id)">删除</button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              circle
+              @click="removeBook(item.id)"
+            ></el-button>
           </td>
         </tr>
       </table>
 
-      <div>保存？</div>
-      <button @click="deleteCartItem(item.id)">删除</button>
-          <td>{{ itemPrice(price,num) }}</td>
-
-      <div v-for="item in getCart">
-        <div>{{ item.name }}</div>
-      </div>
       <p class="btnRight">
-        <span><button class="checkout" @click="checkout">结算</button></span>
-        <!-- <span>总价： {{ cartTotalPrice | currency }}</span> -->
+        <span> <el-button plain  type="primary" @click="checkout" class="check">结算</el-button></span>
+        <!-- <span><button class="checkout" >结算</button></span> -->
+        <span v-show="total" class="total">总计：{{ total }}</span>
       </p>
     </div>
   </div>
@@ -56,66 +59,72 @@
 import { mapGetters, mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
+
 export default {
   name: "ShoppingCart",
   data() {
     return {
-      price:2,
-      num:12
-    }
+      num: 1,
+      total: "",
+    };
   },
   components: {
     HeaderTop,
     ShortCar,
   },
   computed: {
-    // 利用计算属性，获取到vuex中state数据
+    // 利用计算属性，获取到vuex中state中添加到购物车的数据
     getCart() {
       return this.$store.state.cartList;
     },
-
-    // ...mapGetters(["cartItemPrice", "cartTotalPrice"]),
+    ...mapState(["allPrice"]),
+    // ...mapGetters(["cartTotalPrice"]),
   },
 
-  mounted() {},
+  mounted() {
+
+    this.handleChange()
+  },
 
   methods: {
     ...mapMutations([
       "deleteCartItem",
       "incrementItemQuantity",
       "setCartItems",
+      "cartTotalPrice",
+      // "changeBookNum",
     ]),
+    // 计数器
+    handleChange() {
+      // console.log(value);
+      this.cartTotalPrice();
+      this.total = this.allPrice;
+    },
+    // 消息弹窗
+    open() {
+      this.$notify({
+        title: "删除商品成功",
+        // message: h('i', { style: 'color: teal' }, '这是提示文案'),
+        type: "success",
+      });
+    },
+    // 删除图书
+    removeBook(id) {
+      this.deleteCartItem(id);
+      this.open();
+      this.handleChange()
+    },
+
     // 计算单项价格
     itemPrice(price, count) {
-      return price * count;
+      let p = price * count;
+      this.allPrice = p;
+      return p;
     },
     checkout() {
       this.$router.push("/check");
     },
   },
-
-  //     handleAdd(id) {
-  //       this.incrementItemQuantity({ id: id, quantity: 1 });
-  //     },
-
-  //     handleSubtract(book, e) {
-  //       let quantity = book.quantity - 1;
-
-  //       if (quantity <= 0) {
-  //         e.target.disabled = true;
-  //         this.$msgBox.show({
-  //           title: "您确定要删除商品吗？",
-  //           cancel: "取消",
-  //           handleOk: () => this.deleteCartItem(book.id),
-  //           handleCancel: () => {
-  //             e.target.disabled = false;
-  //           },
-  //         });
-  //       } else this.incrementItemQuantity({ id: book.id, quantity: -1 });
-  //     },
-
-  //   },
-  // };
 };
 </script>
 <style scoped>
@@ -123,12 +132,13 @@ export default {
   /* text-align: center;
   margin-left: 45px; */
   /* width: 96%; */
+  /* position: relative; */
   margin-top: 30px;
 }
 .shoppingCart table {
-  border: solid 1px black;
+  border: solid 1px rgb(198, 246, 255);
   width: 100%;
-  background-color: #eee;
+  background-color: rgb(229, 243, 254);
 }
 
 .shoppingCart th {
@@ -139,29 +149,30 @@ export default {
   border-bottom: solid 1px #ddd;
   text-align: center;
 }
-.shoppingCart span {
+/* .shoppingCart span {
   float: right;
   padding-right: 15px;
-}
+} */
 
 .shoppingCart img {
   width: 60px;
   height: 60px;
 }
-.shoppingCart .checkout {
-  /*position: absolute;
-    right: 0px;
-    top: 0;*/
-  float: right;
-  width: 60px;
-  height: 30px;
-  margin: 0;
-  border: none;
-  color: white;
-  background-color: red;
-  cursor: pointer;
-}
+
 .btnRight {
-  margin-top: 20px;
+  margin-top: 60px;
+  /* position: absolute; */
+  right: 10px;
+  bottom: -150px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  /* justify-content: center; */
+}
+.check{
+  margin-right: 30px;
+}
+.total{
+  margin-right:30px ;
 }
 </style>

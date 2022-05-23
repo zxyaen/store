@@ -2,10 +2,6 @@
   <div id="detail">
     <ShortCar />
     <HeaderTop />
-
-    <!-- 这是购物车按钮部分 -->
-    <!-- <button @click="ShowCart">显示购物车</button>
-    <span @click="RemoveBook(5, 2)">删除</span> -->
     <BookInfo :bookId="bookId" />
     <HomeFooter />
   </div>
@@ -35,12 +31,6 @@ export default {
     ShowCart() {
       showCart().then((res) => {
         this.bookInfo = res;
-        console.log(res);
-      });
-    },
-    // 删除书
-    RemoveBook(id, num) {
-      removeBook(id, num).then((res) => {
         console.log(res);
       });
     },

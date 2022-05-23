@@ -8,12 +8,6 @@
           <div class="price">{{ goodItem.bookPrice }}¥</div>
         </div>
       </div>
-
-      <!-- 
-      <p>
-        {{ book.price | factPrice(book.discount) | currency }}
-        <span>{{ book.price | currency }}</span>
-      </p> -->
     </div>
   </div>
 </template>

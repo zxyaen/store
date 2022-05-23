@@ -93,6 +93,8 @@ sub {
 /* 让链接在 hover 状态下显示下划线 */
 a:hover {
     text-decoration:underline;
+    color: rgb(57, 91, 128) ;
+
 }
 /* 默认不显示下划线，保持页面简洁 */
 ins,a {
@@ -140,6 +142,9 @@ a:focus,*:focus {
     float:right;
 }
 a{
-    color: rgb(213, 81, 81) !important;
-    text-decoration: none !important;
+    color: rgb(129, 133, 135) !important;
+    /* text-decoration: none !important; */
 }
+/* a :hover{
+    color: rgb(57, 91, 128) !important;
+} */

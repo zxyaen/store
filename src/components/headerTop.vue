@@ -23,10 +23,21 @@
         <input
           type="text"
           class="text"
-          placeholder="请输入查找图书"
+          placeholder="请输入要查找的图书"
           v-model="Bname"
         />
-        <input type="button" class="btn" value="搜索" @click="Sbook(Bname)" />
+        <el-button
+          icon="el-icon-search"
+          class="btn"
+          circle
+          @click="Sbook(Bname)"
+        ></el-button>
+        <div>
+          <ul>
+            <li v-for="item in sBook">{{item.bookName}}</li>
+          </ul>
+        </div>
+        <!-- <input type="buttonvalue="搜索" @click="Sbook(Bname)" /> -->
       </div>
       <!-- shopcar -->
       <div class="shopcar">
@@ -46,12 +57,16 @@ export default {
   data() {
     return {
       Bname: "",
+      sBook: "",
     };
   },
   methods: {
     Sbook(Bname) {
       searchBook(Bname).then((res) => {
-        console.log(res);
+        this.sBook = res;
+        for (let i = 0; i < Object.keys(res).length; i++) {
+          console.log(res[i]);
+        }
       });
     },
   },
@@ -59,11 +74,6 @@ export default {
 </script>
 
 <style scoped>
-/* .logo{
-  width: 50px;
-  height: 50px;
-  background-image: url('@/assets/logo.png');
-} */
 .header {
   display: flex;
   align-items: center;
@@ -73,13 +83,25 @@ export default {
 .header .headerRight {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  /* width: 600px; */
+  /* justify-content: space-between; */
 }
 .header .headerRight .search {
-  margin-right: 1.5em;
+  /* margin-right: 1.5em; */
+  position: relative;
+  margin-right: 50px;
+}
+.text {
+  border-radius: 15px;
+  padding-left: 4px;
+  border-color: rgb(30, 32, 32);
+  color: rgba(39, 52, 67, 0.3);
 }
 .header .headerRight .search .btn {
-  padding: 5px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  padding: 4px;
 }
 .header .logo {
   display: flex;

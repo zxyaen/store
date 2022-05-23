@@ -11,9 +11,6 @@
     margin: 0 auto;
   }
   
-  body{
-    /* background-color: #f9c6ba; */
-  }
   .body .col-sm img {
     height: 150px;
     width: 150px;
@@ -23,19 +20,7 @@
     margin-top: 10px;
   }
   
-  /* shortcut  start*/
-  
-  /* end */
-  
-  
-  
-  /* header部分 start */
-  
-  /* end */
-  
-  /* nav start */
-  
-  /* end */
+
   
   /* body start */
   .hotSell,
@@ -58,11 +43,3 @@
     border: 1px solid red;
     border-radius: 4px;
   }
-  /* .hotSell .box .line{
-    position: absolute;
-    width: 4px;
-    height: 20px;
-    border: 1px solid black;
-    background-color: black;
-  } */
-  /* end */
