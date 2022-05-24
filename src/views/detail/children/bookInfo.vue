@@ -1,11 +1,11 @@
 <template>
   <div class="bookInfo">
-    <div>
+    
       <img :src="res.bookImg" alt="" class="bookImg" />
-    </div>
+    
     <div class="bookInfoLf">
       <div class="bookname">{{ res.bookName }}</div>
-      <div>价格：{{ res.bookPrice }}¥</div>
+      <div>价格：{{ res.bookPrice }} 元</div>
       <div>
         <span class="buyNum">购买数量：</span>
         <el-input-number
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { showCart } from "@/network/shopCar";
 import { getBooks } from "@/network/goods";
 
 export default {
@@ -106,36 +105,55 @@ export default {
 </script>
 
 <style scoped>
+@media  screen and (max-width: 600px){
+  .bookInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 90%;
+  }
+
+  .bookImg{
+    width: 100px;
+    margin: 0;
+  }
+  .bookInfoLf{
+    /* margin-left: 0.5rem !important; */
+  }
+}
 .bookImg {
-  width: 250px;
+  width: 300px;
   height: 300px;
-  margin: 100px;
-  border: 1px solid rgb(246, 209, 209);
+  margin: 1rem 0;
+  /* border: 1px solid rgb(246, 209, 209); */
 }
 .bookInfo {
   display: flex;
   border: 1px solid rgb(211, 208, 208);
-  margin: 30px;
+  margin: 1rem;
 }
 .bookInfoLf {
   position: relative;
-  padding-right: 50px;
+  margin-left: 1rem;
 }
 .bookInfoLf .bookname {
-  margin-top: 120px;
-  font-size: 24px;
+  /* margin-top: 2rem; */
+  font-size: 2rem !important;
 }
 .bookInfoLf div {
-  margin-top: 30px;
+  margin-top: 1.5rem;
 }
 .buyNum {
-  margin-right: 20px;
+  /* margin-right: 20px; */
 }
 .addBookBtnBox {
-  position: absolute;
-  width: 100%;
-  bottom: 100px;
+  /* position: absolute; */
+  /* width: 200%; */
+  /* bottom: 100px; */
+  margin-left: -0.5rem;
+  padding-bottom: 2rem;
 }
 .addBookBtn {
+  margin-top: 1.5rem;
 }
 </style>

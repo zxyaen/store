@@ -36,3 +36,14 @@ export class bookInfo {
     this.buyNum = bookInfo.bookBuyNum;
   }
 };
+
+// 结算提交，向数据库中存储用户购物车数据
+export function saveCart(value) {
+  return request({
+      type: 'post',
+      url: 'saveCart',
+      params: {
+          books: value,
+      }
+  });
+}

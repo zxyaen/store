@@ -5,7 +5,7 @@
         <img :src="goodItem.bookImg" />
         <div class="info">
           <div class="name">{{ goodItem.bookName }}</div>
-          <div class="price">{{ goodItem.bookPrice }}¥</div>
+          <!-- <div class="price">{{ goodItem.bookPrice }}¥</div> -->
         </div>
       </div>
     </div>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "",
   props: {
@@ -32,9 +30,7 @@ export default {
       res: null,
     };
   },
-  created() {
-
-  },
+  created() {},
   methods: {
     bookDetail() {
       // console.log(this.goodItem.bookId);
@@ -45,6 +41,18 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (min-width: 600px) {
+  .info{
+    width: 100%;
+  }
+  .info .name {
+  font-size: 1.3rem;
+  padding-left: 1.4rem;
+  padding-top: 0.8rem;
+  width: 90%;
+  line-height: 2rem;
+  }
+}
 .booksNew {
   /* float: left; */
   margin: 10px;
@@ -66,18 +74,20 @@ h3 {
   /* margin-left: 10px; */
 }
 .name {
-  margin: 8px;
+  width: 110%;
+  margin-left: 0.1rem;
 }
-.price {
-  margin: 8px;
+.info div {
+  font-size: 0.4rem;
+  /* margin: 0 0.2rem; */
 }
 
 .booksNew a:hover {
   color: red;
 }
 .booksNew img {
-  width: 120px;
-  height: 100px;
+  width: 35%;
+  height: 30%;
 }
 .booksNew span {
   color: #cdcdcd;

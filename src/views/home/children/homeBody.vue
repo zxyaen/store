@@ -47,7 +47,6 @@ export default {
 }
 .item{
   flex: 1;
-      height: 120px;
     margin: 0 5px 5px 0; 
     background-color: rgba(191, 216, 220, 0.2);
     width: calc((100% - 10px) / 3);  

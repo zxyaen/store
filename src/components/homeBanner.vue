@@ -39,9 +39,9 @@ export default {
 
 <style scoped>
 #banner {
-  margin: 20px 0;
+  /* margin: 10px 0; */
   padding-top: 30px;
-  border-top: 1px solid #475669;
+  border-top: 1px solid #e5e9ed;
 }
 .box {
   /* width: 100%; */

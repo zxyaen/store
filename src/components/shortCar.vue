@@ -1,24 +1,20 @@
 <template>
   <div class="shortcut">
-    <nav aria-label="breadcrumb">
-      <p v-if="isLogin">您好！欢迎光临本商城,用户：{{ name }}</p>
-      <p v-if="!isLogin">
-        <router-link to="/login"> 还为登录，请前去登录</router-link>
+    <div class="nav">
+      <p v-if="isLogin" @click="toMyHome">
+        用户:{{ name }}-您好!-欢迎光临本商城
       </p>
-      <p v-if="isLogin" @click="loginOut">退出</p>
-
-      <ol class="breadcrumb headerTop">
-        <li class="breadcrumb-item"><a href="#">｜ 门店查询 </a></li>
-        <li class="breadcrumb-item"><a href="#">｜ 帮助中心 </a></li>
-        <li class="breadcrumb-item"><a href="#">在线客服 </a></li>
-        <li class="breadcrumb-item login">
-          <!-- <a href="/page/login.html">登录/ </a> -->
-          <router-link to="/login" v-if="!isLogin">登录/注册</router-link>
+      <p v-if="!isLogin">
+        <router-link to="/login"> 还未登录，点此去登录</router-link>
+      </p>
+      <!-- <router-link to="/login" v-if="!isLogin">登录/注册</router-link> -->
+      <div class="boxRt">
+        <p>
           <router-link to="/myhome" v-if="isLogin">个人中心</router-link>
-          <!-- <a href="/page/login.html">注册</a> -->
-        </li>
-      </ol>
-    </nav>
+        </p>
+        <p v-if="isLogin" @click="loginOut">退出登录</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,16 +37,20 @@ export default {
   // inject: ["reload"],
   methods: {
     ...mapMutations(["changeIsLogin", "clearCart"]),
-
+    // 跳转到个人中心
+    toMyHome() {
+      this.$router.push('myhome')
+    },
+    // 退出登录
     loginOut() {
       console.log("退出登录");
       loginOut()
         .then((res) => {
           this.getSession();
+          // 退出登录后，若在购物车界面则跳转到主页，若在其他界面则保持不跳转
           if (this.$route.path === "/shopcar") {
             this.$router.push({ name: "home" });
           }
-          console.log(this.$route.path);
         })
         .catch((err) => {
           console.log(err);
@@ -93,32 +93,27 @@ export default {
 <style scoped>
 /* shortcut  start*/
 .shortcut {
-  line-height: 0;
+  line-height: 1.5rem;
 }
 .shortcut .headerTop {
-  flex-direction: row-reverse;
-  background-color: none;
   margin-bottom: 0;
 }
-.shortcut .login {
-  margin-right: 20px;
+
+.nav {
+  padding: 0.2rem 0.8rem;
 }
-.shortcut nav {
+
+.shortcut .nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   /* background-color: #FAECE8; */
   border-bottom: 1px solid #efdad5;
-  font-size: 12px;
+  font-size: 0.5rem;
 }
 .shortcut p {
-  margin: 1em;
-}
-.shortcut .shopCar {
-  font-family: "icomoon";
-}
-.icon-cart:before {
-  content: "\e93a";
+  font-size: 0.4rem;
+  cursor: pointer;
 }
 /* end */
 </style>

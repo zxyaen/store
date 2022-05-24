@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -27,17 +28,37 @@ const routes = [
     },
     {
         path: '/login',
-        component: Login
+        component: Login,
+        beforeEnter: (to, from, next) => {
+            // 设置不可以通过url地址直接访问登录页面
+            if (router.app.$store == undefined) {
+                next("home")
+            } else {
+                next()
+            }
+        }
     },
     {
         path: '/register',
-        component: Register
+        component: Register,
+        beforeEnter: (to, from, next) => {
+            // 设置不可以通过url地址直接访问注册页面
+            if (router.app.$store == undefined) {
+                next("home")
+            } else {
+                next()
+            }
+        }
     },
     {
         path: '/shopcar',
         component: ShopCar,
         // 配置路由守卫
         beforeEnter: (to, from, next) => {
+            // 解决未登录状态下访问购物车页面出现空白页
+            if (router.app.$store == undefined) {
+                next("home")
+            }
             if (router.app.$store.state.isLogin) {
                 next()
             } else {

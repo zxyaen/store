@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       Bname: "",
-      sBook:'',
+      sBook: "",
     };
   },
   methods: {
@@ -52,23 +52,30 @@ export default {
 </script>
 
 <style scoped>
-.header .headerRight .search {
+.search {
   /* margin-right: 1.5em; */
-  width: 185px;
   position: relative;
-  margin-right: 50px;
+  /* margin-right: 45px; */
+}
+imput {
+  border: none !important;
 }
 .text {
   border-radius: 15px;
   padding-left: 4px;
-  border-color: rgb(30, 32, 32);
-  color: rgba(39, 52, 67, 0.3);
+  width: 210px;
+  height: 50px;
+  border-color: rgb(177, 188, 188);
+  color: rgba(86, 96, 106, 0.3);
 }
-.header .headerRight .search .btn {
+.search .btn {
   position: absolute;
-  right: 2px;
-  top: 2px;
-  padding: 4px;
+  right: 5px;
+  top: 6px;
+
+  /* padding: 4px; */
+  /* padding-right: 2px; */
+  border: none !important;
 }
 .searchBook {
   width: 165px;

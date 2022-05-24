@@ -47,7 +47,7 @@
 
       <p class="btnRight">
         <span>
-          <el-button plain type="primary" @click="checkout" class="check"
+          <el-button plain type="primary" @click="checkout(this.cartBookInfo)" class="check"
             >结算</el-button
           >
         </span>
@@ -60,9 +60,11 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from "vuex";
+import {  mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
+import { saveCart, bookInfo } from "@/network/goods";
+
 
 export default {
   name: "ShoppingCart",
@@ -70,6 +72,7 @@ export default {
     return {
       num: 1,
       show: "",
+      cartBookInfo:[{bookId:2,bookNum:12}],
     };
   },
   components: {
@@ -128,10 +131,12 @@ export default {
       return p;
     },
     // 点击结算跳转到结算页面，并向后端发送表单
-    checkout() {
+    checkout(jsonText) {
       const checkBookObj = [];
-
-      this.$router.push("/check");
+      saveCart(jsonText).then((res)=>{
+        console.log(res);
+      })
+      // this.$router.push("/check");
     },
   },
 };

@@ -7,26 +7,29 @@
         <div class="logoLf">
           <router-link to="/"> <img src="@/assets/logo.png" /> </router-link>
         </div>
-        <a href="javascript:;">
+        <!-- <a href="javascript:;">
           <div class="logoRt" @click="guanzhu">
             支持货到付款<br />
             点击关注店铺
           </div>
-        </a>
+        </a> -->
         <!-- <img src="img/logo.png" alt="logo"> -->
       </div>
     </div>
 
-    <div class="headerRight">
+    <!-- <div class="headerRight"> -->
+      <div class="search">
       <Search v-show="getIsHome" />
 
-      <!-- shopcar -->
-      <div class="shopcar">
-        <!-- <i class="car"></i> -->
-        <router-link to="/shopcar" class="mycar">我的购物车</router-link>
-        <a class="shopCar"></a>
       </div>
-    </div>
+
+      <!-- shopCar -->
+      <div class="shopCar">
+
+        <router-link to="/shopCar" class="mycar">购物车</router-link>
+
+      </div>
+    <!-- </div> -->
   </div>
   <!-- 结束 -->
 </template>
@@ -79,9 +82,9 @@ export default {
   display: flex;
 }
 .header .logoLf {
-  border-right: 1px solid black;
-  padding-right: 14px;
-  margin-right: 14px;
+  /* border-right: 1px solid black; */
+/* margin-top: 20px;
+  margin-right: 14px; */
 }
 .header .logoLf a {
   text-align: center;
@@ -90,5 +93,10 @@ export default {
 .header .logoRt {
   font-size: 0.5em;
   margin-top: 10px;
+}
+.shopCar{
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 </style>
