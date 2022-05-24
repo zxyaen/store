@@ -5,6 +5,7 @@
       <p v-if="!isLogin">
         <router-link to="/login"> 还为登录，请前去登录</router-link>
       </p>
+      <p v-if="isLogin" @click="loginOut">退出</p>
 
       <ol class="breadcrumb headerTop">
         <li class="breadcrumb-item"><a href="#">｜ 门店查询 </a></li>
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import { checkLogin, getCode, getSession, loginOut } from "@/network/cookie";
+import { getCode, getSession, loginOut } from "@/network/cookie";
 import { mapMutations } from "vuex";
 
 export default {
@@ -34,22 +35,44 @@ export default {
     isLogin() {
       return this.$store.state.isLogin;
     },
-    ...mapMutations([ "changeIsLogin"]),
-
   },
-  created() {
-  //       // 获取session状态
-  //   getSession().then((res) => {
-  //     console.log(res);
-  //     if (res.login === "yes") {
-  //       this.changeIsLogin(true);
-  //       console.log("已经登录，登录账号为：" + res.accountName);
-  //       return
-  //     }
-  //   });
-  getSession().then((res)=>{
-    console.log(res);
-  })
+  // inject: ["reload"],
+  methods: {
+    ...mapMutations(["changeIsLogin"]),
+
+    loginOut() {
+      console.log("退出登录");
+      loginOut().then((res) => {
+        this.getSession();
+        // console.log(res);
+      });
+    },
+
+    // 获取session状态,动态渲染是否登录
+    getSession() {
+      getSession()
+        .then((res) => {
+          // console.log(res.login);
+          if (res.login === "yes") {
+            this.changeIsLogin(true);
+            console.log("已经登录，登录账号为：" + res.accountName);
+            return;
+          }
+          if (res.login === "no") {
+            this.changeIsLogin(false);
+            // this.reload();
+            console.log("未登录");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {},
+  mounted() {
+    // 获取session状态,动态渲染是否登录
+    this.getSession()
   },
 };
 </script>

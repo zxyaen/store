@@ -22,6 +22,7 @@ const routes = [
     {
         path: '/home',
         // 指定的组件
+        name:'home',
         component: Home
     },
     {

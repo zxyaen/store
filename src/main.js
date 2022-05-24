@@ -15,6 +15,7 @@ Vue.filter('factPrice', factPrice)
 Vue.filter('formatTime', formatTime)
 
 
+
 const bus = new Vue()
 Vue.prototype.$bus = bus;
 

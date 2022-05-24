@@ -5,17 +5,33 @@
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap.js";
 
 // import Home from './components/home.vue'
 
 export default {
-  name: 'App',
-  components: {
-    // Home
-}
-}
+  name: "App",
+  // data() {
+  //   return {
+  //     isShow: true,
+  //   };
+  // },
+  // provide() {
+  //   return {
+  //     reload: this.reload,
+  //   };
+  // },
+  // methods: {
+  //   reload() {
+  //     this.isShow = false;
+  //     this.$nextTick(function () {
+  //       this.isShow = true;
+  //     });
+  //   },
+  // },
+
+};
 </script>
 
 <style>
@@ -28,5 +44,5 @@ export default {
   margin-top: 60px;
 } */
 @import "assets/css/base.css";
-@import "assets/css/common.css"
+@import "assets/css/common.css";
 </style>

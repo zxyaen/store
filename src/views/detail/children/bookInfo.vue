@@ -20,13 +20,12 @@
           >加入购物车</el-button
         >
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import {  showCart} from "@/network/shopCar";
+import { showCart } from "@/network/shopCar";
 import { getBooks } from "@/network/goods";
 
 export default {
@@ -35,11 +34,30 @@ export default {
     return {
       res: "",
       buyNum: "1",
-      banner:null,
+      banner: null,
     };
   },
   props: ["bookId"],
   methods: {
+    // 获取store中图书id
+    getBookId() {
+      let book = this.$store.state.cartList;
+      for (let i = 0; i < book.length; i++) {
+        if (book[i].id === this.res.bookId) {
+          book[i].buyNum += this.buyNum;
+          return;
+        }
+      }
+      // 获取购物车图书需要信息
+      const bookInfo = {};
+      bookInfo.name = this.res.bookName;
+      bookInfo.img = this.res.bookImg;
+      bookInfo.id = this.res.bookId;
+      bookInfo.price = this.res.bookPrice;
+      bookInfo.buyNum = this.buyNum;
+      // 将信息添加到vuex中托管，进一步添加到购物车中
+      this.$store.commit("pushProductToCart", bookInfo);
+    },
     // 消息提示
     open() {
       this.$message({
@@ -48,27 +66,17 @@ export default {
       });
     },
     // 添加书到购物车
-    AddBook( ) {
-       this.open();
-                 // 获取购物车图书需要信息
-          const bookInfo = {};
-          bookInfo.name = this.res.bookName;
-          bookInfo.img = this.res.bookImg;
-          bookInfo.id = this.res.bookId;
-          bookInfo.price = this.res.bookPrice;
-          bookInfo.buyNum = this.buyNum;
-          // 将信息添加到vuex中托管，进一步添加到购物车中
-          this.$store.commit("pushProductToCart", bookInfo);
+    AddBook() {
+      this.open();
+      this.getBookId();
     },
   },
 
   created() {
-
     getBooks().then((res) => {
-      console.log(res.data);
-      this.banner=res.banner
+      this.banner = res.banner;
       //将bookId与点击到的相应bookId对比，相同的传信息给bookDetail进行渲染
-      for (let i = 1; i < Object.keys(res.data).length +1; i++) {
+      for (let i = 1; i < Object.keys(res.data).length + 1; i++) {
         if (res.data[i].bookId === this.bookId) {
           this.res = res.data[i];
         }

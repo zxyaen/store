@@ -170,6 +170,17 @@ export default {
     //   console.log(res);
     // });
 
+
+    // // 获取session状态
+    // getSession().then((res) => {
+    //   console.log(res);
+    //   if (res.login === "yes") {
+    //     this.changeIsLogin(true);
+    //     console.log("已经登录，登录账号为：" + res.accountName);
+    //     return;
+    //   }
+    // });
+
   },
   mounted() {
     // 获取验证码

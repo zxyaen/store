@@ -1,37 +1,38 @@
 <template>
   <div id="banner">
     <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item>
-        <img src="@/assets/image/banner/banner1.png" alt="..." />
-      </el-carousel-item>
-
-      <el-carousel-item class="box">
-        <img src="@/assets/image/banner/banner2.png" alt="..." />
-      </el-carousel-item>
-
-
-      <el-carousel-item>
-        <img
-          src="@/assets/image/banner/banner3.png"
-          alt="..."
-       
-        />
+      <el-carousel-item class="box" v-for="item in bannerImg">
+        <router-link :to="{ name: 'Detail', params: { id: item.bookId } }">
+          <img :src="item.bookBanner" alt="..." />
+        </router-link>
       </el-carousel-item>
     </el-carousel>
   </div>
 </template>
 
 <script>
+import { getBooks } from "@/network/goods";
 export default {
   name: "homeBanner",
   data() {
-    return {};
+    return {
+      bannerImg: [],
+    };
   },
   methods: {
     // 点击banner跳转detail
     bookDetail() {
       this.$router.push("/detail/" + 1);
     },
+  },
+  created() {
+    getBooks()
+      .then((res) => {
+        this.bannerImg = res.banner;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

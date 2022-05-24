@@ -1,13 +1,13 @@
 const digitsRE = /(\d{3})(?=\d)/g
 
-export function factPrice(value, discount){
+export function factPrice(value, discount) {
   value = parseFloat(value);
   discount = parseFloat(discount);
-  if(!discount) return value
+  if (!discount) return value
   return value * discount;
 }
 
-export function currency (value, currency, decimals) {
+export function currency(value, currency, decimals) {
   value = parseFloat(value)
   if (!isFinite(value) || (!value && value !== 0)) return ''
   currency = currency != null ? currency : '￥'
@@ -31,6 +31,8 @@ export function currency (value, currency, decimals) {
 
 
 
-export function formatTime(value){
-    return value.toLocaleString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+export function formatTime(value) {
+  return value.toLocaleString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
 }
+
+

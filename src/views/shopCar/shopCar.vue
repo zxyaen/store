@@ -23,7 +23,7 @@
               {{ item.name }}
             </router-link>
           </td>
-          <td>{{ item.price }} 元</td>
+          <td>{{ item.price | numFilter }} 元</td>
           <td>
             <el-input-number
               v-model="item.buyNum"
@@ -34,7 +34,7 @@
               label="描述文字"
             ></el-input-number>
           </td>
-          <td>{{ itemPrice(item.price, item.buyNum) }}</td>
+          <td>{{ itemPrice(item.price, item.buyNum) | numFilter }}元</td>
           <td>
             <el-popconfirm
               title="确定删除商品吗？"
@@ -42,7 +42,6 @@
             >
               <el-button slot="reference">删除</el-button>
             </el-popconfirm>
- 
           </td>
         </tr>
       </table>
@@ -53,11 +52,12 @@
             >结算</el-button
           >
         </span>
-        <span v-show="total" class="total">总计：{{ total }} 元</span>
+        <span v-show="total" class="total"
+          >总计：{{ total | numFilter }} 元</span
+        >
       </p>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -84,6 +84,14 @@ export default {
     },
     ...mapState(["allPrice"]),
     // ...mapGetters(["cartTotalPrice"]),
+  },
+  filters: {
+    // 保留价格后两位
+    numFilter(value) {
+      // 截取当前数据到小数点后两位
+      let realVal = parseFloat(value).toFixed(2);
+      return realVal;
+    },
   },
 
   mounted() {
@@ -128,9 +136,9 @@ export default {
     },
     // 点击结算跳转到结算页面，并向后端发送表单
     checkout() {
-      const checkBookObj=[]
+      const checkBookObj = [];
 
-      // this.$router.push("/check");
+      this.$router.push("/check");
     },
   },
 };
@@ -186,7 +194,5 @@ export default {
   padding: 7px 10px;
   margin-right: 30px;
   cursor: pointer;
-
 }
-
 </style>
