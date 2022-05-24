@@ -13,7 +13,7 @@
           <th>总价</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item in getCart">
+        <tr v-for="item in cartList">
           <td><img :src="item.img" /></td>
           <td>
             <router-link
@@ -52,8 +52,8 @@
             >结算</el-button
           >
         </span>
-        <span v-show="total" class="total"
-          >总计：{{ total | numFilter }} 元</span
+        <span v-show="allPrice" class="total"
+          >总计：{{ allPrice | numFilter }} 元</span
         >
       </p>
     </div>
@@ -70,7 +70,6 @@ export default {
   data() {
     return {
       num: 1,
-      total: "",
     };
   },
   components: {
@@ -78,12 +77,13 @@ export default {
     ShortCar,
   },
   computed: {
-    // 利用计算属性，获取到vuex中state中添加到购物车的数据
-    getCart() {
-      return this.$store.state.cartList;
+    ...mapState(["allPrice", "dbCartList", "cartList"]),
+
+    // 计算总价格
+    handleChange() {
+      this.cartTotalPrice();
+      // this.total = this.allPrice;
     },
-    ...mapState(["allPrice"]),
-    // ...mapGetters(["cartTotalPrice"]),
   },
   filters: {
     // 保留价格后两位
@@ -95,9 +95,10 @@ export default {
   },
 
   mounted() {
-    this.handleChange(),
-      // 改变isHome值，使搜索框不被渲染
-      this.IsHomeFalse();
+    // this.handleChange(),
+
+    // 改变isHome值，使搜索框不被渲染
+    this.IsHomeFalse();
   },
 
   methods: {
@@ -108,11 +109,7 @@ export default {
       "cartTotalPrice",
       "IsHomeFalse",
     ]),
-    // 计算总价格
-    handleChange() {
-      this.cartTotalPrice();
-      this.total = this.allPrice;
-    },
+
     // 消息弹窗
     open() {
       this.$notify({

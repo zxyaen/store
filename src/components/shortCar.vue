@@ -38,13 +38,12 @@ export default {
   },
   // inject: ["reload"],
   methods: {
-    ...mapMutations(["changeIsLogin"]),
+    ...mapMutations(["changeIsLogin","clearCart"]),
 
     loginOut() {
       console.log("退出登录");
       loginOut().then((res) => {
         this.getSession();
-        // console.log(res);
       });
     },
 
@@ -62,6 +61,7 @@ export default {
             this.changeIsLogin(false);
             // this.reload();
             console.log("未登录");
+            this.clearCart()
           }
         })
         .catch((err) => {

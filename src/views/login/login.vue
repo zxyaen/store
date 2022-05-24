@@ -36,7 +36,7 @@
               >
 
               <el-button @click="resetForm('ruleForm')">重置</el-button>
-              <div @click="quitLogin">退出</div>
+           
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -54,9 +54,10 @@ import register from "../login/register.vue";
 import ShortCar from "components/shortCar.vue";
 import HeaderTop from "components/headerTop.vue";
 
-import { checkLogin, getCode, getSession, loginOut } from "@/network/cookie";
+import { checkLogin, getCode, loginOut } from "@/network/cookie";
+import { getDbCart, bookInfo } from "@/network/goods";
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "login",
@@ -79,9 +80,13 @@ export default {
     };
 
     return {
-      src: null,
+      // 验证码图片
+      src: "",
+
       activeName: "first",
 
+      bookInfo: [],
+      // 登录表单
       ruleForm: {
         name: "",
         pass: "",
@@ -100,11 +105,29 @@ export default {
         ],
         pass: [{ required: true, validator: validatePass, trigger: "blur" }],
       },
+
+      //
     };
   },
-
+  computed: {
+    ...mapState(["dbCartList"]),
+  },
   methods: {
-    ...mapMutations(["IsHomeFalse", "changeIsLogin"]),
+    ...mapMutations(["IsHomeFalse", "changeIsLogin", "saveDbCart"]),
+    // 获取数据库用户购物车内容
+    getDbCart() {
+      getDbCart().then((res) => {
+          for (let i = 0; i < res.data.length; i++) {
+
+            this.bookInfo = this.bookInfo.concat(new bookInfo(res.data[i]));
+          }
+      
+          this.saveDbCart(this.bookInfo);
+          return;
+      }).catch((err)=>{
+        console.log(err);
+      });
+    },
 
     // 动态获取验证码
     getCode() {
@@ -131,19 +154,16 @@ export default {
               function (response) {
                 console.log(response);
                 if (response.result === "ok") {
-                  // console.log("ok");
-                  // this.ruleForm.message = "登录成功!";
-                  this.$router.push("/home");
                   this.open();
+                  this.$router.push("/home");
+                  // getDbCart
+                  this.getDbCart();
                 }
-                // else {
-                //   this.ruleForm.message = "成功";
-                // }
               }.bind(this)
             )
             .catch(
               function (response) {
-                this.ruleForm.message = "登录异常，请重新登录!";
+                console.log("登录异常，请重新登录!");
               }.bind(this)
             );
         }
@@ -153,34 +173,13 @@ export default {
     open() {
       this.$alert("登录成功", {});
     },
-    // 退出登录
-    quitLogin() {
-      console.log("退出登录");
-      loginOut().then((res) => {
-        console.log(res);
-      });
-    },
+
   },
 
   created() {
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
-    // // 退出登录
-    // loginOut().then((res) => {
-    //   console.log(res);
-    // });
-
-
-    // // 获取session状态
-    // getSession().then((res) => {
-    //   console.log(res);
-    //   if (res.login === "yes") {
-    //     this.changeIsLogin(true);
-    //     console.log("已经登录，登录账号为：" + res.accountName);
-    //     return;
-    //   }
-    // });
-
+    this.getDbCart();
   },
   mounted() {
     // 获取验证码
@@ -191,7 +190,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .login {
   width: 400px;
   margin: 0 auto;

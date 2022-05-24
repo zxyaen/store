@@ -5,7 +5,6 @@ import { request } from './request'
 export function getBooks() {
   return request({
     url: 'showAllBook'
-    // url:'home/multidata'
   });
 }
 
@@ -15,7 +14,25 @@ export function getBooks() {
 export function searchBook(q) {
   return request({
     url: 'searchBook?Bname=' + q
-    // url:'home/multidata'
   });
 }
 
+
+
+// 获取数据库里对应用户的购物车内容
+export function getDbCart() {
+  return request({
+    url: 'showCart'
+  });
+}
+
+//封装获取到的数据库购物车数据
+export class bookInfo {
+  constructor(bookInfo) {
+    this.name = bookInfo.bookName;
+    this.img = bookInfo.bookImg;
+    this.id = bookInfo.bookId;
+    this.price = bookInfo.bookPrice;
+    this.buyNum = bookInfo.bookBuyNum;
+  }
+};

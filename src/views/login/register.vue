@@ -118,9 +118,8 @@ export default {
               function (response) {
                 console.log(response);
                 if (response.result === "successSignIn") {
-                  console.log("ok");
                   this.openLogin();
-                  this.$router.push("/login");
+                  // this.$router.push("/login");
                 }
               }.bind(this)
             )

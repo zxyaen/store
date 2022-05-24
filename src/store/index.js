@@ -15,27 +15,37 @@ export default new Vuex.Store({
         // 是否登录
         isLogin: false,
 
+        // 存放数据库的用户购物车信息
+        dbCartList: [],
 
     },
     mutations: { // 用来修改state和getters里面的数据
+        // 用户退出登录，清空购物车
+        clearCart(state) {
+            state.cartList = []
+            state.allPrice = ''
+        },
+
+        // 存储数据库用户购物车信息到dbCartList
+        saveDbCart(state, value) {
+            state.cartList = state.cartList.concat(value)
+        },
+
         // 改变isLogin登录标识符
         changeIsLogin(state, flag) {
 
             if (flag) {
                 state.isLogin = true
-                console.log("flag" + flag);
             } else
                 state.isLogin = false
-            // console.log("flag" + flag);
-
         },
         // 改变isHome的值来达到动态显示
         changeIsHome(state) {
             if (!state.isHome) {
                 state.isHome = !state.isHome
             }
-            // console.log(object);
         },
+
         IsHomeFalse(state) {
             if (state.isHome) {
                 state.isHome = !state.isHome
@@ -51,21 +61,15 @@ export default new Vuex.Store({
         },
 
 
-        // 用于清空购物车
-        // setCartItems(state, { items }) {
-        //     state.items = items
-        // },
-
         // 删除购物车中的产品
         deleteCartItem(state, id) {
             for (let i = 0; i < state.cartList.length; i++) {
                 if (state.cartList[i].id === id) {
                     state.cartList.splice(i, 1)
-
-
                 }
             }
         },
+
         // 计算购物车中所有商品的总价
         cartTotalPrice: (state) => {
             let p = 0
@@ -73,7 +77,6 @@ export default new Vuex.Store({
                 p = p + state.cartList[i].buyNum * state.cartList[i].price
             }
             state.allPrice = p
-
         },
 
     },
@@ -82,11 +85,9 @@ export default new Vuex.Store({
 
     },
     getters: { // 相当于计算属性
-
-
-        // 获取购物车中商品的数量
-        // itemsCount: (state) => {
-        //     return state.items.length;
+        // 合并cartList和dbCartList
+        // merge(state,value){
+        //     state.cartList
         // }
     },
     modules: {// 拆分模块
