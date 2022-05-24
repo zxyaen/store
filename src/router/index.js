@@ -8,6 +8,7 @@ const Register = () =>import('views/login/register.vue')
 const ShopCar = () =>import('views/shopCar/shopCar.vue')
 const Detail=()=>import('views/detail/detail.vue')
 const Check=()=>import('views/check/check.vue')
+const MyHome=()=>import('views/login/myHome')
 
 Vue.use(VueRouter)
 const routes = [
@@ -44,6 +45,9 @@ const routes = [
         path:'/detail/:id',
         name:'Detail',
         component:Detail
+      },{
+          path:'/myhome',
+          component:MyHome,
       }
 ]
 const router = new VueRouter({

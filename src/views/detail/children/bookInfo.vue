@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { addBook, showCart, removeBook } from "@/network/shopCar";
+import {  showCart} from "@/network/shopCar";
 import { getBooks } from "@/network/goods";
 
 export default {
@@ -65,12 +65,12 @@ export default {
   created() {
 
     getBooks().then((res) => {
-      console.log(res);
+      console.log(res.data);
       this.banner=res.banner
       //将bookId与点击到的相应bookId对比，相同的传信息给bookDetail进行渲染
-      for (let i = 1; i < Object.keys(res).length ; i++) {
-        if (res[i].bookId === this.bookId) {
-          this.res = res[i];
+      for (let i = 1; i < Object.keys(res.data).length +1; i++) {
+        if (res.data[i].bookId === this.bookId) {
+          this.res = res.data[i];
         }
       }
     });

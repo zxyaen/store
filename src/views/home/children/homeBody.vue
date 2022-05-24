@@ -3,7 +3,7 @@
     <hr />
     <h3 class="title">新书上市</h3>
     <div class="bookNew">
-      <BookNew v-for="item in res" :good-item="item" class="item"/>
+      <BookNew v-for="item in bookInfo" :good-item="item" class="item"/>
     </div>
     <!-- <p>123</p> -->
   </div>
@@ -17,7 +17,7 @@ export default {
   name: "homeBody",
   data() {
     return {
-      res: "",
+      bookInfo: "",
     };
   },
   components: {
@@ -26,8 +26,7 @@ export default {
   methods: {},
   created() {
     getBooks().then((res) => {
-      // console.log(res);
-      this.res = res;
+      this.bookInfo = res.data;
     });
   },
 };

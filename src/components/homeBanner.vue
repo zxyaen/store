@@ -4,14 +4,17 @@
       <el-carousel-item>
         <img src="@/assets/image/banner/banner1.png" alt="..." />
       </el-carousel-item>
+
       <el-carousel-item class="box">
         <img src="@/assets/image/banner/banner2.png" alt="..." />
       </el-carousel-item>
+
+
       <el-carousel-item>
         <img
           src="@/assets/image/banner/banner3.png"
           alt="..."
-          @click="bookDetail"
+       
         />
       </el-carousel-item>
     </el-carousel>
@@ -25,6 +28,7 @@ export default {
     return {};
   },
   methods: {
+    // 点击banner跳转detail
     bookDetail() {
       this.$router.push("/detail/" + 1);
     },
@@ -33,16 +37,16 @@ export default {
 </script>
 
 <style scoped>
-#banner{
+#banner {
   margin: 20px 0;
   padding-top: 30px;
-  border-top:1px solid #475669 ;
+  border-top: 1px solid #475669;
 }
-.box{
-  width: 100%;
+.box {
+  /* width: 100%; */
   height: 100%;
 }
-img{
+img {
   width: 100%;
   height: 100%;
 }

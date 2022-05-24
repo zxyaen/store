@@ -36,6 +36,7 @@
               >
 
               <el-button @click="resetForm('ruleForm')">重置</el-button>
+              <div @click="quitLogin">退出</div>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -53,13 +54,17 @@ import register from "../login/register.vue";
 import ShortCar from "components/shortCar.vue";
 import HeaderTop from "components/headerTop.vue";
 
-import { checkLogin, getCode } from "@/network/cookie";
+import { checkLogin, getCode, getSession, loginOut } from "@/network/cookie";
 
-import {  mapMutations } from "vuex";
-
+import { mapMutations } from "vuex";
 
 export default {
   name: "login",
+  components: {
+    register,
+    ShortCar,
+    HeaderTop,
+  },
   data() {
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -97,12 +102,11 @@ export default {
       },
     };
   },
-  computed: {},
 
   methods: {
-    ...mapMutations(["IsHomeFalse"]),
-    // 动态获取验证码
+    ...mapMutations(["IsHomeFalse", "changeIsLogin"]),
 
+    // 动态获取验证码
     getCode() {
       getCode().then((res) => {
         this.src = window.URL.createObjectURL(res);
@@ -127,13 +131,14 @@ export default {
               function (response) {
                 console.log(response);
                 if (response.result === "ok") {
-                  console.log("ok");
-                  this.ruleForm.message = "登录成功!";
+                  // console.log("ok");
+                  // this.ruleForm.message = "登录成功!";
                   this.$router.push("/home");
                   this.open();
-                } else {
-                  this.ruleForm.message = "成功";
                 }
+                // else {
+                //   this.ruleForm.message = "成功";
+                // }
               }.bind(this)
             )
             .catch(
@@ -148,17 +153,26 @@ export default {
     open() {
       this.$alert("登录成功", {});
     },
+    // 退出登录
+    quitLogin() {
+      console.log("退出登录");
+      loginOut().then((res) => {
+        console.log(res);
+      });
+    },
   },
-  components: {
-    register,
-    ShortCar,
-    HeaderTop,
-  },
+
   created() {
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
+    // // 退出登录
+    // loginOut().then((res) => {
+    //   console.log(res);
+    // });
+
   },
   mounted() {
+    // 获取验证码
     getCode().then((res) => {
       this.src = window.URL.createObjectURL(res);
     });

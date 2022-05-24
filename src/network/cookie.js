@@ -30,7 +30,7 @@ export function login(a, b, c) {
     }
   });
 }
-
+// 获取验证码
 export function getCode(){
   return request({
     method:'get',
@@ -39,4 +39,18 @@ export function getCode(){
     
   })
 }
+// 获取session状态
+export function getSession(){
+  return request({
+    method:'get',
+    url:'sessionId'
+  })
+}
 
+// 退出登录
+export function loginOut(){
+  return request({
+    method:'get',
+    url:'logout'
+  })
+}

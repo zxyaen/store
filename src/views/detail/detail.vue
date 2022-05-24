@@ -14,7 +14,7 @@ import BookInfo from "./children/bookInfo.vue";
 
 import HomeFooter from "components/homeFooter.vue";
 
-import { showCart, removeBook } from "@/network/shopCar";
+import { showCart } from "@/network/shopCar";
 
 import {  mapMutations } from "vuex";
 
@@ -35,7 +35,6 @@ export default {
     ShowCart() {
       showCart().then((res) => {
         this.bookInfo = res;
-        console.log(res);
       });
     },
   },

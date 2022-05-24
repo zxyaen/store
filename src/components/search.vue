@@ -41,10 +41,10 @@ export default {
   methods: {
     Sbook(Bname) {
       searchBook(Bname).then((res) => {
-        this.sBook = res;
-        for (let i = 0; i < Object.keys(res).length; i++) {
-          console.log(res[i]);
-        }
+        this.sBook = res.data;
+        // for (let i = 0; i < Object.keys(res.data).length; i++) {
+        //   console.log(res.data[i]);
+        // }
       });
     },
   },
@@ -75,7 +75,7 @@ export default {
   position: absolute;
   background-color: rgba(234, 244, 253, 0.6);
   border-radius: 0 0 5px 5px;
-  z-index: 1;
+  z-index: 3;
   left: 10px;
 }
 .searchBook .bookItem {

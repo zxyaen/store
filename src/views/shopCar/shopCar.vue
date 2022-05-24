@@ -100,7 +100,7 @@ export default {
       "cartTotalPrice",
       "IsHomeFalse",
     ]),
-    // 计数器
+    // 计算总价格
     handleChange() {
       this.cartTotalPrice();
       this.total = this.allPrice;
@@ -126,8 +126,11 @@ export default {
       this.allPrice = p;
       return p;
     },
+    // 点击结算跳转到结算页面，并向后端发送表单
     checkout() {
-      this.$router.push("/check");
+      const checkBookObj=[]
+
+      // this.$router.push("/check");
     },
   },
 };

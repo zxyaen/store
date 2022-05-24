@@ -11,10 +11,17 @@ export default new Vuex.Store({
         // 总价
         allPrice: null,
         // 控制搜索框只在主页显示
-        isHome: false
+        isHome: false,
+        // 是否登录
+        isLogin:false,
 
     },
     mutations: { // 用来修改state和getters里面的数据
+        // 改变isLogin登录标识符
+        changeIsLogin(state,flag){
+            state.isLogin=flag
+            console.log(flag);
+        },
         // 改变isHome的值来达到动态显示
         changeIsHome(state) {
             if (!state.isHome) {
@@ -26,7 +33,6 @@ export default new Vuex.Store({
             if (state.isHome) {
                 state.isHome = !state.isHome
             }
-            console.log("222");
         },
 
 

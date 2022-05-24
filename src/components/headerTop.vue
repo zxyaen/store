@@ -8,7 +8,7 @@
           <router-link to="/"> <img src="@/assets/logo.png" /> </router-link>
         </div>
         <a href="javascript:;">
-          <div class="logoRt">
+          <div class="logoRt" @click="guanzhu">
             支持货到付款<br />
             点击关注店铺
           </div>
@@ -18,8 +18,7 @@
     </div>
 
     <div class="headerRight">
-<Search v-show="getIsHome"/>
-
+      <Search v-show="getIsHome" />
 
       <!-- shopcar -->
       <div class="shopcar">
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import Search from "./search.vue"
+import Search from "./search.vue";
 export default {
   name: "headerTop",
   data() {
@@ -43,14 +42,22 @@ export default {
     };
   },
 
-  components:{
-    Search
+  components: {
+    Search,
   },
-  computed:{
-    getIsHome(){
-      return this.$store.state.isHome
-    }
-  }
+  computed: {
+    getIsHome() {
+      return this.$store.state.isHome;
+    },
+  },
+  methods: {
+    guanzhu() {
+      this.$message({
+        message: "关注成功",
+        type: "success",
+      });
+    },
+  },
 };
 </script>
 
