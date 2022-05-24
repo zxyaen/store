@@ -56,8 +56,8 @@ export default new Vuex.Store({
 
         // 添加商品到购物车中
         pushProductToCart(state, value) {
-
             state.cartList.push(value);
+            console.log(value);
         },
 
 

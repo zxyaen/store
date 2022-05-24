@@ -18,7 +18,6 @@
           <td>
             <router-link
               :to="{ name: 'Detail', params: { id: item.id } }"
-              target="_blank"
             >
               {{ item.name }}
             </router-link>
@@ -52,7 +51,7 @@
             >结算</el-button
           >
         </span>
-        <span v-show="allPrice" class="total"
+        <span v-show="allPrice || show" class="total"
           >总计：{{ allPrice | numFilter }} 元</span
         >
       </p>
@@ -70,6 +69,7 @@ export default {
   data() {
     return {
       num: 1,
+      show: "",
     };
   },
   components: {
@@ -82,7 +82,6 @@ export default {
     // 计算总价格
     handleChange() {
       this.cartTotalPrice();
-      // this.total = this.allPrice;
     },
   },
   filters: {
@@ -95,8 +94,6 @@ export default {
   },
 
   mounted() {
-    // this.handleChange(),
-
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
   },
@@ -114,7 +111,6 @@ export default {
     open() {
       this.$notify({
         title: "删除商品成功",
-        // message: h('i', { style: 'color: teal' }, '这是提示文案'),
         type: "success",
       });
     },

@@ -36,7 +36,6 @@
               >
 
               <el-button @click="resetForm('ruleForm')">重置</el-button>
-           
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -86,6 +85,7 @@ export default {
       activeName: "first",
 
       bookInfo: [],
+      message: "",
       // 登录表单
       ruleForm: {
         name: "",
@@ -116,17 +116,18 @@ export default {
     ...mapMutations(["IsHomeFalse", "changeIsLogin", "saveDbCart"]),
     // 获取数据库用户购物车内容
     getDbCart() {
-      getDbCart().then((res) => {
+      getDbCart()
+        .then((res) => {
           for (let i = 0; i < res.data.length; i++) {
-
             this.bookInfo = this.bookInfo.concat(new bookInfo(res.data[i]));
           }
-      
+
           this.saveDbCart(this.bookInfo);
           return;
-      }).catch((err)=>{
-        console.log(err);
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     // 动态获取验证码
@@ -151,13 +152,28 @@ export default {
             this.ruleForm.checkPass
           )
             .then(
-              function (response) {
-                console.log(response);
-                if (response.result === "ok") {
-                  this.open();
+              function (res) {
+                console.log(res);
+                if (res.result === "ok") {
+                  this.message = "登录成功";
+                  this.successNotification();
+                  // this.loginSuccess();
                   this.$router.push("/home");
                   // getDbCart
                   this.getDbCart();
+                  return;
+                }
+                if (res.result === "null") {
+                  this.message = "请输入验证码";
+                  this.warningNotification();
+                }
+                if (res.result === "verError") {
+                  this.message = "验证码错误";
+                  this.warningNotification();
+                }
+                if (res.result === "InputError") {
+                  this.message = "账号或密码错误";
+                  this.warningNotification();
                 }
               }.bind(this)
             )
@@ -170,10 +186,22 @@ export default {
       });
     },
     // 弹窗
-    open() {
+    loginSuccess() {
       this.$alert("登录成功", {});
     },
-
+    // 消息提示
+    warningNotification() {
+      this.$message({
+        message: this.message,
+        type: "warning",
+      });
+    },
+    successNotification() {
+      this.$message({
+        message: this.message,
+        type: "success",
+      });
+    },
   },
 
   created() {

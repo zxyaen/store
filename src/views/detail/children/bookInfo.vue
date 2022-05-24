@@ -39,37 +39,56 @@ export default {
   },
   props: ["bookId"],
   methods: {
-    // 获取store中图书id
-    getBookId() {
-      let book = this.$store.state.cartList;
-      for (let i = 0; i < book.length; i++) {
-        if (book[i].id === this.res.bookId) {
-          book[i].buyNum += this.buyNum;
-          return;
+    // 获取store中图书id，若未登录->提示先登录在添加；
+    // 若已登录->判断购物车中是否存在同钟，若存在只改变buyNum，若不存在添加书详细信息到购物车
+    AddBook() {
+      // 判断是否登录
+      if (this.$store.state.isLogin) {
+        // 判断购物车是否存在同种书
+        let book = this.$store.state.cartList;
+        for (let i = 0; i < book.length; i++) {
+          // 若添加的书在购物车中已存在，则只改变buyNum
+          if (book[i].id === this.res.bookId) {
+            book[i].buyNum += this.buyNum;
+            this.addBookSuccess();
+            return;
+          }
         }
+        // 不存在添加详细信息到购物车
+        // 获取购物车图书需要信息
+        const bookInfo = {};
+        bookInfo.name = this.res.bookName;
+        bookInfo.img = this.res.bookImg;
+        bookInfo.id = this.res.bookId;
+        bookInfo.price = this.res.bookPrice;
+        bookInfo.buyNum = this.buyNum;
+
+        // 将信息添加到vuex中托管，进一步添加到购物车中
+        this.$store.commit("pushProductToCart", bookInfo);
+        this.addBookSuccess();
+        return;
+      } else {
+        this.notLogin()
       }
-      // 获取购物车图书需要信息
-      const bookInfo = {};
-      bookInfo.name = this.res.bookName;
-      bookInfo.img = this.res.bookImg;
-      bookInfo.id = this.res.bookId;
-      bookInfo.price = this.res.bookPrice;
-      bookInfo.buyNum = this.buyNum;
-      // 将信息添加到vuex中托管，进一步添加到购物车中
-      this.$store.commit("pushProductToCart", bookInfo);
     },
     // 消息提示
-    open() {
+    addBookSuccess() {
       this.$message({
         message: "添加购物车成功",
         type: "success",
       });
     },
-    // 添加书到购物车
-    AddBook() {
-      this.open();
-      this.getBookId();
+    notLogin() {
+      this.$message({
+        message: "请先登录，再进行添加",
+        type: "warning",
+      });
     },
+    
+    // // 添加书到购物车
+    // AddBook() {
+    //   this.getBookId();
+    // },
   },
 
   created() {

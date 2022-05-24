@@ -68,6 +68,7 @@ export default {
     return {
       src: null,
       activeName: "second",
+      message: "",
       ruleForm: {
         name: "",
         pass: "",
@@ -104,22 +105,34 @@ export default {
         this.src = window.URL.createObjectURL(res);
       });
     },
-    // 弹窗
-    openLogin() {
-      this.$alert("注册成功，请登录", {
-        confirmButtonText: "确定",
-      });
-    },
+    // 提交表单
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           login(this.ruleForm.name, this.ruleForm.pass, this.ruleForm.code)
             .then(
-              function (response) {
-                console.log(response);
-                if (response.result === "successSignIn") {
-                  this.openLogin();
-                  // this.$router.push("/login");
+              function (res) {
+                console.log(res);
+                if (res.result === "successSignIn") {
+                  this.message = "注册成功，请登录";
+                  this.successNotification();
+                  return;
+                }
+                if (res.result === "null") {
+                  this.message = "请输入验证码";
+                  this.warningNotification();
+                }
+                if (res.result === "verError") {
+                  this.message = "验证码错误";
+                  this.warningNotification();
+                }
+                if (res.result === "InputError") {
+                  this.message = "账号或密码错误";
+                  this.warningNotification();
+                }
+                if (res.result === "accountExist") {
+                  this.message = "用户名已存在";
+                  this.warningNotification();
                 }
               }.bind(this)
             )
@@ -131,7 +144,20 @@ export default {
         }
       });
     },
-
+    // 消息提示
+    warningNotification() {
+      this.$message({
+        message: this.message,
+        type: "warning",
+      });
+    },
+    successNotification() {
+      this.$message({
+        message: this.message,
+        type: "success",
+      });
+    },
+    // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
