@@ -12,25 +12,9 @@ import "bootstrap/dist/js/bootstrap.js";
 
 export default {
   name: "App",
-  // data() {
-  //   return {
-  //     isShow: true,
-  //   };
-  // },
-  // provide() {
-  //   return {
-  //     reload: this.reload,
-  //   };
-  // },
-  // methods: {
-  //   reload() {
-  //     this.isShow = false;
-  //     this.$nextTick(function () {
-  //       this.isShow = true;
-  //     });
-  //   },
-  // },
+  methods: {
 
+  },
 };
 </script>
 

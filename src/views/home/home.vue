@@ -18,13 +18,12 @@ import HomeFooter from "components/homeFooter.vue";
 
 import BackTop from "components/backTop.vue";
 
-import {  mapMutations } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "home",
   data() {
-    return {
-    };
+    return {};
   },
   components: {
     ShortCar,
@@ -36,10 +35,10 @@ export default {
     BackTop,
   },
   methods: {
-    ...mapMutations(["changeIsHome"])
+    ...mapMutations(["changeIsHome"]),
   },
   created() {
-    this.changeIsHome()
+    this.changeIsHome();
   },
 };
 </script>

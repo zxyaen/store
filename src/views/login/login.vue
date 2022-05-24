@@ -185,16 +185,14 @@ export default {
         }
       });
     },
-    // 弹窗
-    loginSuccess() {
-      this.$alert("登录成功", {});
-    },
+
     // 消息提示
     warningNotification() {
       this.$message({
         message: this.message,
         type: "warning",
       });
+      console.log(this.$message);
     },
     successNotification() {
       this.$message({

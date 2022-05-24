@@ -1,7 +1,7 @@
 <template>
   <div class="shortcut">
     <nav aria-label="breadcrumb">
-      <p v-if="isLogin">您好！欢迎光临本商城,用户：{{name}}</p>
+      <p v-if="isLogin">您好！欢迎光临本商城,用户：{{ name }}</p>
       <p v-if="!isLogin">
         <router-link to="/login"> 还为登录，请前去登录</router-link>
       </p>
@@ -30,7 +30,7 @@ export default {
   name: "shortCar",
   data() {
     return {
-      name:''
+      name: "",
     };
   },
   computed: {
@@ -40,13 +40,21 @@ export default {
   },
   // inject: ["reload"],
   methods: {
-    ...mapMutations(["changeIsLogin","clearCart"]),
+    ...mapMutations(["changeIsLogin", "clearCart"]),
 
     loginOut() {
       console.log("退出登录");
-      loginOut().then((res) => {
-        this.getSession();
-      });
+      loginOut()
+        .then((res) => {
+          this.getSession();
+          if (this.$route.path === "/shopcar") {
+            this.$router.push({ name: "home" });
+          }
+          console.log(this.$route.path);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     // 获取session状态,动态渲染是否登录
@@ -56,7 +64,7 @@ export default {
           // console.log(res.login);
           if (res.login === "yes") {
             this.changeIsLogin(true);
-            this.name=res.accountName
+            this.name = res.accountName;
             console.log("已经登录，登录账号为：" + res.accountName);
             return;
           }
@@ -64,8 +72,9 @@ export default {
             this.changeIsLogin(false);
             // this.reload();
             console.log("未登录");
-            // 此处若用户为登录，切换到购物车页面，会造成添加到购物车的商品被删除，造成抖动
-            this.clearCart()
+            // 此处若用户为登录，切换到购物车页面，会造成添加到购物车的商品被删除，
+            // 通过路由守卫，控制用户未登录状态不可访问购物车界面，强制跳转登录界面
+            this.clearCart();
           }
         })
         .catch((err) => {
@@ -76,7 +85,7 @@ export default {
   created() {},
   mounted() {
     // 获取session状态,动态渲染是否登录
-    this.getSession()
+    this.getSession();
   },
 };
 </script>

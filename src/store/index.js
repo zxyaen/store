@@ -82,7 +82,12 @@ export default new Vuex.Store({
     },
 
     actions: { // vuex中用于发起异步请求
-
+        warningNotification(context) {
+            this._vm.$message({
+              message: "请在登录后查看购物车",
+              type: "warning",
+            });
+          },
     },
     getters: { // 相当于计算属性
         // 合并cartList和dbCartList
