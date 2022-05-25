@@ -8,8 +8,12 @@
         <tr class="title">
           <th>
             <div class="checkAll">
-              <span>全选</span>
-              <input type="checkbox"  />
+              <!-- <span>全选</span>
+              <input
+                type="checkbox"
+                :checked="allDone"
+                @click="changeAllDone(allDone)"
+              /> -->
             </div>
           </th>
           <th>商品</th>
@@ -19,7 +23,13 @@
           <th>操作</th>
         </tr>
         <tr v-for="item in cartList" class="goodsList">
-          <td><input type="checkbox" /></td>
+          <td>
+            <!-- <input
+              type="checkbox"
+              :checked="item.done"
+              @click="changeDone(item.id)"
+            /> -->
+          </td>
           <td class="goodInfoBox">
             <div class="goodInfo">
               <img :src="item.img" />
@@ -61,7 +71,7 @@
           <el-button
             plain
             type="primary"
-            @click="checkout(cartBookInfo)"
+            @click="checkout(cartList)"
             class="check"
             >结算</el-button
           >
@@ -78,7 +88,7 @@
 import { mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
-import { saveCart, DBbooks, books } from "@/network/goods";
+import { saveCart, DBbooks, getDbCart, bookInfo } from "@/network/goods";
 
 export default {
   name: "ShoppingCart",
@@ -86,10 +96,12 @@ export default {
     return {
       num: 1,
       show: "",
-      cartBookInfo: [
-        { bookId: 1, bookNum: 10 },
-        { bookId: 5, bookNum: 51 },
-      ],
+      allDone: false,
+      bookInfo: [],
+      // cartBookInfo: [
+      //   { bookId: 1, bookNum: 10 },
+      //   { bookId: 5, bookNum: 51 },
+      // ],
     };
   },
   components: {
@@ -97,7 +109,7 @@ export default {
     ShortCar,
   },
   computed: {
-    ...mapState(["allPrice", "dbCartList", "cartList"]),
+    ...mapState(["allPrice", "dbCartList", "cartList","first"]),
 
     // 计算总价格
     handleChange() {
@@ -116,18 +128,31 @@ export default {
   mounted() {
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
+    this.getDbCart();
+    console.log(this.first);
+    // this.cartList = JSON.parse(localStorage.getItem("cartList"));
   },
 
   methods: {
     ...mapMutations([
       "deleteCartItem",
-      "incrementItemQuantity",
-      "setCartItems",
       "cartTotalPrice",
       "IsHomeFalse",
+      "ChangeDone",
+      "ChangeAllDone",
+      "saveDbCart",
+      "changeFirst",
     ]),
 
-    // 消息弹窗
+    changeDone(id) {
+      this.ChangeDone(id);
+    },
+    changeAllDone(allDone) {
+      this.allDone = !this.allDone;
+      this.ChangeAllDone(allDone);
+    },
+
+    // 消息弹窗,
     open() {
       this.$notify({
         title: "删除商品成功",
@@ -148,33 +173,53 @@ export default {
       return p;
     },
 
-    // 点击结算跳转到结算页面，并向后端发送表单
-    checkout(value) {
-      let Books = [];
-      /*
-      [{ bookId: 1, bookNum: 10 },
-        { bookId: 5, bookNum: 51 },],
-      */
-      for (let i = 0; i < value.length; i++) {
-        Books = Books.concat(new DBbooks(value[i]));
-      }
-
-      // console.log(Books);
-      // let a = new books(Books);
-      console.log(JSON.stringify(Books));
-
-      // console.log(this.$store.state.cartList);
-      saveCart(JSON.stringify(Books))
+    // 获取数据库用户购物车内容
+    getDbCart() {
+      getDbCart()
         .then((res) => {
-          console.log(res);
+          for (let i = 0; i < res.data.length; i++) {
+            this.bookInfo = this.bookInfo.concat(new bookInfo(res.data[i]));
+          }
+          if (this.first) {
+            // 把数据库用户购物车数据同步到store中的cartList
+            this.saveDbCart(this.bookInfo);
+            this.changeFirst()
+          }
+
+          return;
         })
         .catch((err) => {
           console.log(err);
         });
+    },
 
-      // this.$router.push("/check");
+    // 点击结算跳转到结算页面，并向后端发送表单
+    checkout(value) {
+      let Books = [];
+  // console.log(value);
+      for (let i = 0; i < value.length; i++) {
+        Books = Books.concat(new DBbooks(value[i]));
+        // console.log(value[i].id);
+        // console.log(value[i].buyNum);
+      }
+
+      console.log(Books);
+
+
+      saveCart(Books)
+        .then((res) => {
+          console.log(res);
+          if (res.result === "ok") {
+            // this.$router.push("/check");
+            return;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
+  watch: {},
 };
 </script>
 <style scoped>

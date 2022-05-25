@@ -48,7 +48,8 @@ export default {
         .then((res) => {
           this.getSession();
           // 退出登录后，若在购物车界面则跳转到主页，若在其他界面则保持不跳转
-          if (this.$route.path === "/shopcar") {
+          if (this.$route.path === "/shopCar") {
+            console.log("shop");
             this.$router.push({ name: "home" });
           }
         })

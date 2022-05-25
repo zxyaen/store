@@ -1,8 +1,7 @@
 <template>
   <div class="bookInfo">
-    
-      <img :src="res.bookImg" alt="" class="bookImg" />
-    
+    <img :src="res.bookImg" alt="" class="bookImg" />
+
     <div class="bookInfoLf">
       <div class="bookname">{{ res.bookName }}</div>
       <div>价格：{{ res.bookPrice }} 元</div>
@@ -37,7 +36,17 @@ export default {
     };
   },
   props: ["bookId"],
+  // computed: {
+  //   cartList() {
+  //     return this.$store.state.cartList;
+  //   },
+  // },
   methods: {
+    // // 存储购物车数据到本地
+    // handler(value) {
+    //   localStorage.setItem("cartList", JSON.stringify(value));
+    // },
+
     // 获取store中图书id，若未登录->提示先登录在添加；
     // 若已登录->判断购物车中是否存在同钟，若存在只改变buyNum，若不存在添加书详细信息到购物车
     AddBook() {
@@ -50,6 +59,7 @@ export default {
           if (book[i].id === this.res.bookId) {
             book[i].buyNum += this.buyNum;
             this.addBookSuccess();
+            // this.handler(this.cartList);
             return;
           }
         }
@@ -65,9 +75,11 @@ export default {
         // 将信息添加到vuex中托管，进一步添加到购物车中
         this.$store.commit("pushProductToCart", bookInfo);
         this.addBookSuccess();
+        // this.handler(this.cartList);
+
         return;
       } else {
-        this.notLogin()
+        this.notLogin();
       }
     },
     // 消息提示
@@ -83,7 +95,7 @@ export default {
         type: "warning",
       });
     },
-    
+
     // // 添加书到购物车
     // AddBook() {
     //   this.getBookId();
@@ -105,19 +117,19 @@ export default {
 </script>
 
 <style scoped>
-@media  screen and (max-width: 600px){
-  .bookInfo{
+@media screen and (max-width: 600px) {
+  .bookInfo {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 90%;
   }
 
-  .bookImg{
+  .bookImg {
     width: 100px;
     margin: 0;
   }
-  .bookInfoLf{
+  .bookInfoLf {
     /* margin-left: 0.5rem !important; */
   }
 }

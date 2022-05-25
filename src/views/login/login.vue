@@ -110,19 +110,27 @@ export default {
     };
   },
   computed: {
-    ...mapState(["dbCartList"]),
+    // ...mapState(["cartList"]),
   },
   methods: {
     ...mapMutations(["IsHomeFalse", "changeIsLogin", "saveDbCart"]),
+
+    // // 存储购物车数据到本地
+    // handler(value) {
+    //   localStorage.setItem("cartList", JSON.stringify(value));
+    // },
+
     // 获取数据库用户购物车内容
     getDbCart() {
       getDbCart()
         .then((res) => {
+          console.log(res);
           for (let i = 0; i < res.data.length; i++) {
             this.bookInfo = this.bookInfo.concat(new bookInfo(res.data[i]));
           }
-
+          // 把数据库用户购物车数据同步到store中的cartList
           this.saveDbCart(this.bookInfo);
+          // this.handler(this.cartList);
           return;
         })
         .catch((err) => {
@@ -157,9 +165,9 @@ export default {
                 if (res.result === "ok") {
                   this.message = "登录成功";
                   this.successNotification();
-                  // this.loginSuccess();
+
                   this.$router.push("/home");
-                  // getDbCart
+
                   this.getDbCart();
                   return;
                 }

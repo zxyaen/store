@@ -18,19 +18,43 @@ export default new Vuex.Store({
         // 暂时存放数据库的用户购物车信息
         dbCartList: [],
 
+        // 购物车是否为第一次加载
+        first:true
+
     },
     mutations: { // 用来修改state和getters里面的数据
+        // 点击复选框，更改done
+        ChangeDone(state, id) {
+            state.cartList.forEach((item) => {
+                if (item.id === id) {
+                    item.done = !item.done
+                }
+            });
+        },
+        ChangeAllDone(state, allDone) {
+            state.cartList.forEach((item) => {
+                if (allDone) {
+                    item.done = false
+                    return
+                }
+                item.done = true
+            })
+        },
+
         // 用户退出登录，清空购物车
         clearCart(state) {
             state.cartList = []
             state.allPrice = ''
         },
 
-        // 存储数据库用户购物车信息到dbCartList
+        // 存储数据库用户购物车信息到cartList
         saveDbCart(state, value) {
             state.cartList = state.cartList.concat(value)
         },
 
+        changeFirst(state){
+            state.first=false
+        },
         // 改变isLogin登录标识符
         changeIsLogin(state, flag) {
 
@@ -84,10 +108,10 @@ export default new Vuex.Store({
     actions: { // vuex中用于发起异步请求
         warningNotification(context) {
             this._vm.$message({
-              message: "请在登录后查看购物车",
-              type: "warning",
+                message: "请在登录后查看购物车",
+                type: "warning",
             });
-          },
+        },
     },
     getters: { // 相当于计算属性
         // 合并cartList和dbCartList

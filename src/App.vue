@@ -12,9 +12,28 @@ import "bootstrap/dist/js/bootstrap.js";
 
 export default {
   name: "App",
-  methods: {
+  // data() {
+  //   return {
+  //     cartList:JSON.parse(localStorage.getItem("cartList")) || [],
+  //   }
+  // },
+ 
+  // methods: {
 
-  },
+  // },
+  // // 添加监视事件
+  // watch: {
+  //   // 监视对象是todos
+  //   cartList: {
+  //     // 开启深度监视
+  //     // handler回调函数，存储数据到本地
+  //     handler(value) {
+  //       localStorage.setItem("cartList", JSON.stringify(value));
+  //     },
+  //     deep: true,
+  //   },
+  // },
+
 };
 </script>
 
