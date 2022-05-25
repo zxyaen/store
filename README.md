@@ -10,9 +10,9 @@
         - 显示登陆界面 
   - 响应式
   - 手机电脑平板三端适应
-  - ![phone](@/../src/assets/denoImg/phone.png)
-  - ![pc](@/../src/assets/denoImg/pc.png)
-  - ![ipad](@/../src/assets/denoImg/ipad.png)
+    - 手机 ![phone](@/../src/assets/denoImg/phone.png)
+    - 电脑 ！[pc](@/../src/assets/denoImg/pc.png)
+    - 平板 ![ipad](@/../src/assets/denoImg/ipad.png)
 - 详情页
   - 动态展示所点图书数据
   - 添加图书到购物车
