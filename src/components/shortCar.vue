@@ -1,7 +1,7 @@
 <template>
   <div class="shortcut">
     <div class="nav">
-      <p v-if="isLogin" @click="toMyHome">
+      <p v-if="isLogin" >
         用户:{{ name }}-您好!-欢迎光临本商城
       </p>
       <p v-if="!isLogin" class="noLogin">
@@ -9,9 +9,9 @@
       </p>
       <!-- <router-link to="/login" v-if="!isLogin">登录/注册</router-link> -->
       <div class="boxRt">
-        <p>
+        <!-- <p>
           <router-link to="/myhome" v-if="isLogin">个人中心</router-link>
-        </p>
+        </p> -->
         <p v-if="isLogin" @click="loginOut">退出登录</p>
       </div>
     </div>
@@ -37,10 +37,13 @@ export default {
   // inject: ["reload"],
   methods: {
     ...mapMutations(["changeIsLogin", "clearCart"]),
-    // 跳转到个人中心
-    toMyHome() {
-      this.$router.push('myhome')
+    logout() {
+      this.$message({
+        message: "已退出登录",
+        type: "success",
+      });
     },
+
     // 退出登录
     loginOut() {
       console.log("退出登录");
@@ -49,9 +52,9 @@ export default {
           this.getSession();
           // 退出登录后，若在购物车界面则跳转到主页，若在其他界面则保持不跳转
           if (this.$route.path === "/shopCar") {
-            console.log("shop");
             this.$router.push({ name: "home" });
           }
+          this.logout()
         })
         .catch((err) => {
           console.log(err);
@@ -116,7 +119,7 @@ export default {
   font-size: 0.4rem;
   cursor: pointer;
 }
-.noLogin a{
+.noLogin a {
   color: rgb(218, 46, 46) !important;
 }
 /* end */

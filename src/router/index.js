@@ -68,7 +68,8 @@ const routes = [
         }
     },
     {
-        path: '/check',
+        path: '/check/:total',
+        name:'Check',
         component: Check
     },
     // 跳转到详情页

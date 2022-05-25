@@ -6,16 +6,16 @@
     <div class="shoppingCart">
       <table>
         <tr class="title">
-          <th>
+          <!-- <th>
             <div class="checkAll">
-              <!-- <span>全选</span>
+              <span>全选</span>
               <input
                 type="checkbox"
                 :checked="allDone"
                 @click="changeAllDone(allDone)"
-              /> -->
+              />
             </div>
-          </th>
+          </th> -->
           <th>商品</th>
           <th>单价</th>
           <th>数量</th>
@@ -23,13 +23,13 @@
           <th>操作</th>
         </tr>
         <tr v-for="item in cartList" class="goodsList">
-          <td>
-            <!-- <input
+          <!-- <td>
+            <input
               type="checkbox"
               :checked="item.done"
               @click="changeDone(item.id)"
-            /> -->
-          </td>
+            />
+          </td> -->
           <td class="goodInfoBox">
             <div class="goodInfo">
               <img :src="item.img" />
@@ -98,10 +98,7 @@ export default {
       show: "",
       allDone: false,
       bookInfo: [],
-      // cartBookInfo: [
-      //   { bookId: 1, bookNum: 10 },
-      //   { bookId: 5, bookNum: 51 },
-      // ],
+      mes: null,
     };
   },
   components: {
@@ -109,7 +106,7 @@ export default {
     ShortCar,
   },
   computed: {
-    ...mapState(["allPrice", "dbCartList", "cartList","first"]),
+    ...mapState(["allPrice", "dbCartList", "cartList", "first"]),
 
     // 计算总价格
     handleChange() {
@@ -154,14 +151,15 @@ export default {
 
     // 消息弹窗,
     open() {
-      this.$notify({
-        title: "删除商品成功",
+      this.$message({
+        message: this.mes,
         type: "success",
       });
     },
     // 删除图书
     removeBook(id) {
       this.deleteCartItem(id);
+      this.mes = "删除成功";
       this.open();
       this.handleChange();
     },
@@ -183,7 +181,7 @@ export default {
           if (this.first) {
             // 把数据库用户购物车数据同步到store中的cartList
             this.saveDbCart(this.bookInfo);
-            this.changeFirst()
+            this.changeFirst();
           }
 
           return;
@@ -196,30 +194,61 @@ export default {
     // 点击结算跳转到结算页面，并向后端发送表单
     checkout(value) {
       let Books = [];
-  // console.log(value);
       for (let i = 0; i < value.length; i++) {
         Books = Books.concat(new DBbooks(value[i]));
-        // console.log(value[i].id);
-        // console.log(value[i].buyNum);
       }
-
-      console.log(Books);
-
-
       saveCart(Books)
         .then((res) => {
-          console.log(res);
           if (res.result === "ok") {
-            // this.$router.push("/check");
+            this.mes = "正在准备结算";
+            this.open()
+            this.$router.push("/check/"+this.allPrice);
             return;
           }
         })
         .catch((err) => {
+          this.mes = "出错啦";
+          this.open();
+          console.log(err);
+        });
+    },
+
+    // 自动存储购物车内容到数据库
+    saveDB(value) {
+      let Books = [];
+      for (let i = 0; i < value.length; i++) {
+        Books = Books.concat(new DBbooks(value[i]));
+      }
+      saveCart(Books)
+        .then((res) => {
+          if (res.result === "ok") {
+            // this.mes = "正在准备结算";
+            // this.open()
+            // this.$router.push("/check/"+this.allPrice);
+            return;
+          }
+        })
+        .catch((err) => {
+          this.mes = "出错啦";
+          this.open();
           console.log(err);
         });
     },
   },
-  watch: {},
+  beforeRouteLeave(to,from,next){
+     this.saveDB(this.cartList);
+     next()
+  },
+  // watch: {
+  //   // 监视cartList变化，若cartList发生变化，自动保存到数据库
+  //   cartList: {
+  //     deep: true,
+  //     handler(value) {
+  //       console.log("变了");
+  //       this.saveDB(value);
+  //     },
+  //   },
+  // },
 };
 </script>
 <style scoped>
