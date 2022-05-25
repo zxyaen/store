@@ -6,6 +6,7 @@
       class="text"
       placeholder="请输入要查找的图书"
       v-model="Bname"
+      @keyup.enter="Sbook(Bname)"
     />
     <el-button
       icon="el-icon-search"

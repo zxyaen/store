@@ -1,8 +1,10 @@
 <template>
   <div>
     <ShortCar />
+    <HeaderTop />
+    <hr>
     <h2>个人中心页面</h2>
-    <div @click="quitLogin">退出登录</div>
+    <!-- <div @click="quitLogin">退出登录</div> -->
   </div>
 </template>
 
@@ -11,13 +13,14 @@ import { mapMutations } from "vuex";
 import { loginOut } from "@/network/cookie";
 import { getDbCart } from "@/network/goods";
 import ShortCar from "@/components/shortCar.vue";
+import HeaderTop from "@/components/headerTop.vue";
 
 export default {
   name: "myHome",
   data() {
     return {};
   },
-  components: { ShortCar },
+  components: { ShortCar, HeaderTop },
   methods: {
     ...mapMutations(["IsHomeFalse", "changeIsLogin"]),
     // 退出登录
@@ -27,8 +30,6 @@ export default {
         console.log(res);
       });
     },
-
-
   },
   created() {},
 };

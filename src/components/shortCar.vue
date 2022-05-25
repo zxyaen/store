@@ -4,7 +4,7 @@
       <p v-if="isLogin" @click="toMyHome">
         用户:{{ name }}-您好!-欢迎光临本商城
       </p>
-      <p v-if="!isLogin">
+      <p v-if="!isLogin" class="noLogin">
         <router-link to="/login"> 还未登录，点此去登录</router-link>
       </p>
       <!-- <router-link to="/login" v-if="!isLogin">登录/注册</router-link> -->
@@ -114,6 +114,9 @@ export default {
 .shortcut p {
   font-size: 0.4rem;
   cursor: pointer;
+}
+.noLogin a{
+  color: rgb(218, 46, 46) !important;
 }
 /* end */
 </style>

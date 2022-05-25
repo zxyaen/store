@@ -4,47 +4,45 @@
     <headerTop />
     <p class="login" id="login">
       <el-tabs v-model="activeName" @tab-click="handleClick" class="box">
+        <el-tab-pane label="登录" name="first">
+          <el-form
+            :model="ruleForm"
+            :rules="rules"
+            ref="ruleForm"
+            label-width="100px"
+            class="demo-ruleForm"
+          >
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="ruleForm.name"> </el-input>
+            </el-form-item>
 
-          <el-tab-pane label="登录" name="first">
-            <el-form
-              :model="ruleForm"
-              :rules="rules"
-              ref="ruleForm"
-              label-width="100px"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="名称" prop="name">
-                <el-input v-model="ruleForm.name"> </el-input>
-              </el-form-item>
+            <el-form-item label="密码" prop="pass">
+              <el-input
+                type="password"
+                v-model="ruleForm.pass"
+                auto-complete="off"
+              >
+              </el-input>
+            </el-form-item>
 
-              <el-form-item label="密码" prop="pass">
-                <el-input
-                  type="password"
-                  v-model="ruleForm.pass"
-                  auto-complete="off"
-                >
-                </el-input>
-              </el-form-item>
+            <el-form-item label="验证码" prop="checkPass">
+              <el-input type="text" v-model="ruleForm.checkPass"> </el-input>
+            </el-form-item>
+            <!-- 验证码 -->
+            <img :src="src" alt="" class="loginImg" @click="getCode()" />
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')"
+                >登录</el-button
+              >
 
-              <el-form-item label="验证码" prop="checkPass">
-                <el-input type="text" v-model="ruleForm.checkPass"> </el-input>
-              </el-form-item>
-              <!-- 验证码 -->
-              <img :src="src" alt="" class="loginImg" @click="getCode()" />
-              <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm')"
-                  >登录</el-button
-                >
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
 
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
-              </el-form-item>
-            </el-form>
-          </el-tab-pane>
-
-          <el-tab-pane label="注册" name="second">
-            <register></register>
-          </el-tab-pane>
-
+        <el-tab-pane label="注册" name="second">
+          <register></register>
+        </el-tab-pane>
       </el-tabs>
     </p>
   </div>
@@ -219,13 +217,13 @@ export default {
 </script>
 
 <style scoped>
-@media screen and (max-width: 600px){
-  #login{
-      width: 80%;
+@media screen and (max-width: 600px) {
+  #login {
+    width: 80%;
   }
 }
 .login {
-width: 25rem;
+  width: 25rem;
   margin: 0 auto;
 }
 .box {

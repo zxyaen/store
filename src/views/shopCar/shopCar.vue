@@ -5,24 +5,33 @@
 
     <div class="shoppingCart">
       <table>
-        <tr>
-          <th>全选</th>
-          <th>商品名称</th>
+        <tr class="title">
+          <th>
+            <div class="checkAll">
+              <span>全选</span>
+              <input type="checkbox"  />
+            </div>
+          </th>
+          <th>商品</th>
           <th>单价</th>
           <th>数量</th>
           <th>总价</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item in cartList">
-          <td><img :src="item.img" /></td>
-          <td>
-            <router-link
-              :to="{ name: 'Detail', params: { id: item.id } }"
-            >
-              {{ item.name }}
-            </router-link>
+        <tr v-for="item in cartList" class="goodsList">
+          <td><input type="checkbox" /></td>
+          <td class="goodInfoBox">
+            <div class="goodInfo">
+              <img :src="item.img" />
+              <router-link
+                :to="{ name: 'Detail', params: { id: item.id } }"
+                class="content contentBookName"
+              >
+                {{ item.name }}
+              </router-link>
+            </div>
           </td>
-          <td>{{ item.price | numFilter }} 元</td>
+          <td class="content">{{ item.price | numFilter }} 元</td>
           <td>
             <el-input-number
               v-model="item.buyNum"
@@ -31,6 +40,8 @@
               :max="99"
               size="mini"
               label="描述文字"
+              class="content"
+              id="inputNum"
             ></el-input-number>
           </td>
           <td>{{ itemPrice(item.price, item.buyNum) | numFilter }}元</td>
@@ -39,7 +50,7 @@
               title="确定删除商品吗？"
               @confirm="removeBook(item.id)"
             >
-              <el-button slot="reference">删除</el-button>
+              <el-button slot="reference" class="content">删除</el-button>
             </el-popconfirm>
           </td>
         </tr>
@@ -47,7 +58,11 @@
 
       <p class="btnRight">
         <span>
-          <el-button plain type="primary" @click="checkout(this.cartBookInfo)" class="check"
+          <el-button
+            plain
+            type="primary"
+            @click="checkout(cartBookInfo)"
+            class="check"
             >结算</el-button
           >
         </span>
@@ -60,11 +75,10 @@
 </template>
 
 <script>
-import {  mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
-import { saveCart, bookInfo } from "@/network/goods";
-
+import { saveCart, DBbooks, books } from "@/network/goods";
 
 export default {
   name: "ShoppingCart",
@@ -72,7 +86,10 @@ export default {
     return {
       num: 1,
       show: "",
-      cartBookInfo:[{bookId:2,bookNum:12}],
+      cartBookInfo: [
+        { bookId: 1, bookNum: 10 },
+        { bookId: 5, bookNum: 51 },
+      ],
     };
   },
   components: {
@@ -130,18 +147,62 @@ export default {
       this.allPrice = p;
       return p;
     },
+
     // 点击结算跳转到结算页面，并向后端发送表单
-    checkout(jsonText) {
-      const checkBookObj = [];
-      saveCart(jsonText).then((res)=>{
-        console.log(res);
-      })
+    checkout(value) {
+      let Books = [];
+      /*
+      [{ bookId: 1, bookNum: 10 },
+        { bookId: 5, bookNum: 51 },],
+      */
+      for (let i = 0; i < value.length; i++) {
+        Books = Books.concat(new DBbooks(value[i]));
+      }
+
+      // console.log(Books);
+      // let a = new books(Books);
+      console.log(JSON.stringify(Books));
+
+      // console.log(this.$store.state.cartList);
+      saveCart(JSON.stringify(Books))
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // this.$router.push("/check");
     },
   },
 };
 </script>
 <style scoped>
+@media screen and (max-width: 600px) {
+  #inputNum {
+    width: 85%;
+  }
+}
+.checkAll {
+  display: flex;
+  width: 3rem;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+}
+.goodInfoBox {
+  text-align: center;
+}
+.goodInfo {
+  display: flex;
+  width: 6rem;
+  margin: 0 auto;
+  flex-direction: column-reverse;
+  align-items: center;
+}
+.goodInfo img {
+  margin-top: 0.3rem;
+}
 .shoppingCart {
   /* text-align: center;
   margin-left: 45px; */
@@ -192,5 +253,23 @@ export default {
   padding: 7px 10px;
   margin-right: 30px;
   cursor: pointer;
+}
+.title th {
+  /* font-size: 1rem; */
+}
+.content {
+  font-size: 1rem;
+}
+#inputNum {
+  width: 6rem;
+}
+.contentBookName {
+  display: block;
+  width: 100%;
+  height: 1.5rem;
+  overflow: hidden;
+}
+.goodsList {
+  height: 6rem;
 }
 </style>

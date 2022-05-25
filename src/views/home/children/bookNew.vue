@@ -1,5 +1,5 @@
 <template>
-  <div class="booksNew">
+  <div class="booksNew" id="booksNew">
     <div class="wrap">
       <div class="book" @click="bookDetail">
         <img :src="goodItem.bookImg" />
@@ -9,6 +9,7 @@
         </div>
       </div>
     </div>
+    <div class="price">{{ goodItem.bookPrice }} 元</div>
   </div>
 </template>
 
@@ -42,41 +43,52 @@ export default {
 
 <style scoped>
 @media screen and (min-width: 600px) {
-  .info{
+  .info {
     width: 100%;
   }
   .info .name {
-  font-size: 1.3rem;
-  padding-left: 1.4rem;
-  padding-top: 0.8rem;
-  width: 90%;
-  line-height: 2rem;
+    font-size: 1.3rem;
+    padding-left: 1.4rem;
+    padding-top: 0.8rem;
+    width: 90%;
+    line-height: 2rem;
   }
 }
 .booksNew {
   /* float: left; */
   margin: 10px;
+  position: relative;
 }
 h3 {
   text-align: center;
   margin: 10px;
 }
-/* .wrap {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-} */
+.wrap {
+}
 .booksNew .book {
   display: flex;
-  margin: 10px;
+  flex-flow: column;
+  margin: 20px;
   cursor: pointer;
-  /* border-right: solid 1px #ccc; */
-  /* margin-left: 10px; */
+
+  align-items: center;
+  justify-content: center;
+}
+.price {
+  position: absolute;
+
+  margin-left: 0.1rem;
+  text-align: center;
+  bottom: 0.6rem;
+  right: 42%;
 }
 .name {
-  width: 110%;
+
   margin-left: 0.1rem;
+  text-align: center;
+
 }
+
 .info div {
   font-size: 0.4rem;
   /* margin: 0 0.2rem; */
@@ -86,8 +98,8 @@ h3 {
   color: red;
 }
 .booksNew img {
-  width: 35%;
-  height: 30%;
+  width: 10rem;
+  height: 8rem;
 }
 .booksNew span {
   color: #cdcdcd;

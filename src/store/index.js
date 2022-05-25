@@ -15,7 +15,7 @@ export default new Vuex.Store({
         // 是否登录
         isLogin: false,
 
-        // 存放数据库的用户购物车信息
+        // 暂时存放数据库的用户购物车信息
         dbCartList: [],
 
     },
