@@ -29,7 +29,7 @@
               <el-input type="text" v-model="ruleForm.checkPass"> </el-input>
             </el-form-item>
             <!-- 验证码 -->
-            <img :src="src" alt="" class="loginImg" @click="getCode()" />
+            <img :src="src" alt="" class="loginImg" @click="GetCode()" />
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')"
                 >登录</el-button
@@ -40,8 +40,8 @@
           </el-form>
         </el-tab-pane>
 
-        <el-tab-pane label="注册" name="second">
-          <register></register>
+        <el-tab-pane label="注册" name="second" >
+          <register ref="register" ></register>
         </el-tab-pane>
       </el-tabs>
     </p>
@@ -120,6 +120,7 @@ export default {
     //   localStorage.setItem("cartList", JSON.stringify(value));
     // },
 
+
     // 获取数据库用户购物车内容
     getDbCart() {
       getDbCart()
@@ -139,7 +140,7 @@ export default {
     },
 
     // 动态获取验证码
-    getCode() {
+    GetCode() {
       getCode().then((res) => {
         console.log("请求验证码1");
         this.src = window.URL.createObjectURL(res);
@@ -217,11 +218,12 @@ export default {
     this.getDbCart();
   },
   mounted() {
-    // 获取验证码
-    getCode().then((res) => {
-      console.log("获取到session1");
-      this.src = window.URL.createObjectURL(res);
-    });
+    // 获取验证码;
+    // getCode().then((res) => {
+    //   console.log("获取到session验证码");
+    //   this.src = window.URL.createObjectURL(res);
+    // });
+    this.GetCode();
   },
 };
 </script>

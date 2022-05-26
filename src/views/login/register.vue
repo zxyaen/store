@@ -27,7 +27,7 @@
     ></el-form-item>
 
     <el-form-item label="验证码" prop="code">
-      <el-input type="text" v-model="ruleForm.code"> </el-input>
+      <el-input type="text" v-model="ruleForm.code"  @focus="getCode"> </el-input>
     </el-form-item>
 
     <img :src="src" alt="" class="loginImg" @click="getCode()" />
@@ -93,9 +93,9 @@ export default {
     };
   },
   mounted() {
-    getCode().then((res) => {
-      this.src = window.URL.createObjectURL(res);
-    });
+    // getCode().then((res) => {
+    //   this.src = window.URL.createObjectURL(res);
+    // });
   },
 
   methods: {

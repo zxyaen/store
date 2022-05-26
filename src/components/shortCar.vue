@@ -1,9 +1,7 @@
 <template>
   <div class="shortcut">
     <div class="nav">
-      <p v-if="isLogin" >
-        用户:{{ name }}-您好!-欢迎光临本商城
-      </p>
+      <p v-if="isLogin">用户:{{ name }}-您好!-欢迎光临本商城</p>
       <p v-if="!isLogin" class="noLogin">
         <router-link to="/login"> 还未登录，点此去登录</router-link>
       </p>
@@ -54,7 +52,7 @@ export default {
           if (this.$route.path === "/shopCar") {
             this.$router.push({ name: "home" });
           }
-          this.logout()
+          this.logout();
         })
         .catch((err) => {
           console.log(err);
@@ -62,10 +60,15 @@ export default {
     },
 
     // 获取session状态,动态渲染是否登录
-    getSession() {
+    GetSession() {
+      console.log(this.$route.path);
+      if (this.$route.path === "/login") {
+        console.log(this.$route.path === "/login");
+        return;
+      }
       getSession()
         .then((res) => {
-          console.log("获取到session2");
+          console.log("获取到session22222");
           if (res.login === "yes") {
             this.changeIsLogin(true);
             this.name = res.accountName;
@@ -84,12 +87,13 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      // this.changeIsLogin(false);
     },
   },
   created() {},
   mounted() {
     // 获取session状态,动态渲染是否登录
-    this.getSession();
+    this.GetSession();
   },
 };
 </script>
