@@ -141,6 +141,7 @@ export default {
     // 动态获取验证码
     getCode() {
       getCode().then((res) => {
+        console.log("请求验证码1");
         this.src = window.URL.createObjectURL(res);
       });
     },
@@ -218,6 +219,7 @@ export default {
   mounted() {
     // 获取验证码
     getCode().then((res) => {
+      console.log("获取到session1");
       this.src = window.URL.createObjectURL(res);
     });
   },

@@ -16,6 +16,6 @@ module.exports = defineConfig({
     }
   },
   devServer: {
-    proxy: 'http://localhost:8080'
+    proxy: 'http://172.16.3.161:8080'
   }
 })

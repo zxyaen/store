@@ -6,6 +6,7 @@
       class="text"
       placeholder="请输入要查找的图书"
       v-model="Bname"
+      @blur="hide"
       @keyup.enter="Sbook(Bname)"
     />
     <el-button
@@ -14,7 +15,7 @@
       circle
       @click="Sbook(Bname)"
     ></el-button>
-    <div class="searchBook">
+    <div class="searchBook" v-show="show" @mouseleave="hide">
       <ul>
         <router-link
           :to="{ name: 'Detail', params: { id: item.bookId } }"
@@ -37,16 +38,22 @@ export default {
     return {
       Bname: "",
       sBook: "",
+      show: false,
     };
   },
   methods: {
     Sbook(Bname) {
-      searchBook(Bname).then((res) => {
-        this.sBook = res.data;
-        // for (let i = 0; i < Object.keys(res.data).length; i++) {
-        //   console.log(res.data[i]);
-        // }
-      });
+      if (Bname) {
+        searchBook(Bname).then((res) => {
+          console.log(res);
+          this.sBook = res.data;
+        });
+        this.show = true;
+      }
+    },
+    // 失去焦点隐藏搜素数据
+    hide() {
+      this.show = false;
     },
   },
 };
@@ -79,12 +86,11 @@ imput {
   border: none !important;
 }
 .searchBook {
-  width: 165px;
+  width: 210px;
   position: absolute;
   background-color: rgba(234, 244, 253, 0.6);
   border-radius: 0 0 5px 5px;
   z-index: 3;
-  left: 10px;
 }
 .searchBook .bookItem {
   margin-top: 10px;

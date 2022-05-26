@@ -200,7 +200,7 @@ export default {
       saveCart(Books)
         .then((res) => {
           if (res.result === "ok") {
-            this.mes = "正在准备结算";
+            this.mes = "结算成功";
             this.open()
             this.$router.push("/check/"+this.allPrice);
             return;

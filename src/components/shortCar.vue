@@ -65,7 +65,7 @@ export default {
     getSession() {
       getSession()
         .then((res) => {
-          // console.log(res.login);
+          console.log("获取到session2");
           if (res.login === "yes") {
             this.changeIsLogin(true);
             this.name = res.accountName;
