@@ -121,13 +121,12 @@ export default {
       return realVal;
     },
   },
-
+  created() {},
   mounted() {
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
-    this.getDbCart();
-    console.log(this.first);
-    // this.cartList = JSON.parse(localStorage.getItem("cartList"));
+    console.log(this.cartList);
+    this.saveDB(this.cartList);
   },
 
   methods: {
@@ -180,6 +179,7 @@ export default {
           }
           if (this.first) {
             // 把数据库用户购物车数据同步到store中的cartList
+            console.log("第一次进入购物车，保存数据到数据库");
             this.saveDbCart(this.bookInfo);
             this.changeFirst();
           }
@@ -201,8 +201,8 @@ export default {
         .then((res) => {
           if (res.result === "ok") {
             this.mes = "结算成功";
-            this.open()
-            this.$router.push("/check/"+this.allPrice);
+            this.open();
+            this.$router.push("/check/" + this.allPrice);
             return;
           }
         })
@@ -219,12 +219,10 @@ export default {
       for (let i = 0; i < value.length; i++) {
         Books = Books.concat(new DBbooks(value[i]));
       }
+      console.log("存储到数据库了");
       saveCart(Books)
         .then((res) => {
           if (res.result === "ok") {
-            // this.mes = "正在准备结算";
-            // this.open()
-            // this.$router.push("/check/"+this.allPrice);
             return;
           }
         })
@@ -235,20 +233,20 @@ export default {
         });
     },
   },
-  beforeRouteLeave(to,from,next){
-     this.saveDB(this.cartList);
-     next()
+  beforeRouteLeave(to, from, next) {
+    this.saveDB(this.cartList);
+    next();
   },
-  // watch: {
-  //   // 监视cartList变化，若cartList发生变化，自动保存到数据库
-  //   cartList: {
-  //     deep: true,
-  //     handler(value) {
-  //       console.log("变了");
-  //       this.saveDB(value);
-  //     },
-  //   },
-  // },
+  watch: {
+    // 监视cartList变化，若cartList发生变化，自动保存到数据库
+    cartList: {
+      deep: true,
+      handler(value) {
+        console.log("save");
+        this.saveDB(value);
+      },
+    },
+  },
 };
 </script>
 <style scoped>

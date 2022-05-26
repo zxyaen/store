@@ -26,7 +26,7 @@
             </el-form-item>
 
             <el-form-item label="验证码" prop="checkPass">
-              <el-input type="text" v-model="ruleForm.checkPass"> </el-input>
+              <el-input type="text" v-model="ruleForm.checkPass" @focus="GetCode"> </el-input>
             </el-form-item>
             <!-- 验证码 -->
             <img :src="src" alt="" class="loginImg" @click="GetCode()" />
@@ -223,7 +223,7 @@ export default {
     //   console.log("获取到session验证码");
     //   this.src = window.URL.createObjectURL(res);
     // });
-    this.GetCode();
+    // this.GetCode();
   },
 };
 </script>

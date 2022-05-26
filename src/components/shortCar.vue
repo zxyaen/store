@@ -47,7 +47,7 @@ export default {
       console.log("退出登录");
       loginOut()
         .then((res) => {
-          this.getSession();
+          this.GetSession();
           // 退出登录后，若在购物车界面则跳转到主页，若在其他界面则保持不跳转
           if (this.$route.path === "/shopCar") {
             this.$router.push({ name: "home" });
@@ -61,14 +61,8 @@ export default {
 
     // 获取session状态,动态渲染是否登录
     GetSession() {
-      console.log(this.$route.path);
-      if (this.$route.path === "/login") {
-        console.log(this.$route.path === "/login");
-        return;
-      }
       getSession()
         .then((res) => {
-          console.log("获取到session22222");
           if (res.login === "yes") {
             this.changeIsLogin(true);
             this.name = res.accountName;
@@ -87,7 +81,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // this.changeIsLogin(false);
     },
   },
   created() {},

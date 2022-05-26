@@ -45,7 +45,6 @@ export default {
     Sbook(Bname) {
       if (Bname) {
         searchBook(Bname).then((res) => {
-          console.log(res);
           this.sBook = res.data;
         });
         this.show = true;

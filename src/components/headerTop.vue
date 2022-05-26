@@ -7,28 +7,22 @@
         <div class="logoLf">
           <router-link to="/"> <img src="@/assets/logo.png" /> </router-link>
         </div>
-        <!-- <a href="javascript:;">
-          <div class="logoRt" @click="guanzhu">
-            支持货到付款<br />
-            点击关注店铺
-          </div>
-        </a> -->
+        <router-link to="/">
+          <div class="logoRt"><-回到<br /><-主页</div>
+        </router-link>
         <!-- <img src="img/logo.png" alt="logo"> -->
       </div>
     </div>
 
     <!-- <div class="headerRight"> -->
-      <div class="search">
+    <div class="search">
       <Search v-show="getIsHome" />
+    </div>
 
-      </div>
-
-      <!-- shopCar -->
-      <div class="shopCar">
-
-        <router-link to="/shopCar" class="mycar">购物车</router-link>
-
-      </div>
+    <!-- shopCar -->
+    <div class="shopCar">
+      <router-link to="/shopCar" class="mycar">购物车</router-link>
+    </div>
     <!-- </div> -->
   </div>
   <!-- 结束 -->
@@ -53,14 +47,7 @@ export default {
       return this.$store.state.isHome;
     },
   },
-  methods: {
-    guanzhu() {
-      this.$message({
-        message: "关注成功",
-        type: "success",
-      });
-    },
-  },
+
 };
 </script>
 
@@ -83,7 +70,7 @@ export default {
 }
 .header .logoLf {
   /* border-right: 1px solid black; */
-/* margin-top: 20px;
+  /* margin-top: 20px;
   margin-right: 14px; */
 }
 .header .logoLf a {
@@ -92,9 +79,10 @@ export default {
 }
 .header .logoRt {
   font-size: 0.5em;
-  margin-top: 10px;
+  margin-top: 7px;
+  margin-left: 5px;
 }
-.shopCar{
+.shopCar {
   height: 100%;
   display: flex;
   align-items: center;
