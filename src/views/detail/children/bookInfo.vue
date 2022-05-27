@@ -1,30 +1,36 @@
 <template>
-  <div class="bookInfo">
-    <img :src="res.bookImg" alt="" class="bookImg" />
-
-    <div class="bookInfoLf">
-      <div class="bookname">{{ res.bookName }}</div>
-      <div>价格：{{ res.bookPrice }} 元</div>
-      <div>
-        <span class="buyNum">购买数量：</span>
-        <el-input-number
-          size="small"
-          v-model="buyNum"
-          :min="1"
-          class="buyBtn"
-        ></el-input-number>
+  <div class="box">
+    <div class="bookInfo">
+      <img :src="res.bookImg" alt="" class="bookImg" />
+      <div class="bookInfoLf">
+        <div class="bookname">{{ res.bookName }}</div>
+        <div>价格：{{ res.bookPrice }} 元</div>
+        <div>
+          <span class="buyNum">购买数量：</span>
+          <el-input-number
+            size="small"
+            v-model="buyNum"
+            :min="1"
+            class="buyBtn"
+          ></el-input-number>
+        </div>
+        <div class="addBookBtnBox">
+          <el-button round @click="AddBook()" class="addBookBtn"
+            >加入购物车</el-button
+          >
+        </div>
       </div>
-      <div class="addBookBtnBox">
-        <el-button round @click="AddBook()" class="addBookBtn"
-          >加入购物车</el-button
-        >
-      </div>
+    </div>
+    <div class="info">
+      <p>详情介绍：</p>
+      <p> {{ res.bookInfo }}</p>
+     
     </div>
   </div>
 </template>
 
 <script>
-import { getBooks ,saveCart,DBbooks} from "@/network/goods";
+import { getBooks, saveCart, DBbooks } from "@/network/goods";
 import { mapState, mapMutations } from "vuex";
 
 export default {
@@ -33,7 +39,7 @@ export default {
     return {
       res: "",
       buyNum: "1",
-      banner: null,
+      // banner: null,
     };
   },
   props: ["bookId"],
@@ -130,7 +136,8 @@ export default {
 
   created() {
     getBooks().then((res) => {
-      this.banner = res.banner;
+      console.log(res);
+      // this.banner = res.banner;
       //将bookId与点击到的相应bookId对比，相同的传信息给bookDetail进行渲染
       for (let i = 1; i < Object.keys(res.data).length + 1; i++) {
         if (res.data[i].bookId === this.bookId) {
@@ -159,15 +166,22 @@ export default {
     /* margin-left: 0.5rem !important; */
   }
 }
+
+  .box {
+    margin: 1rem;
+    /* background-color: blanchedalmond; */
+    border-radius: 2.5rem;
+    border: 1px solid rgb(169, 165, 165);
+  }
 .bookImg {
   width: 300px;
   height: 300px;
   margin: 1rem 0;
-  /* border: 1px solid rgb(246, 209, 209); */
+  /* border-bot: 1px solid rgb(246, 209, 209); */
 }
 .bookInfo {
   display: flex;
-  border: 1px solid rgb(211, 208, 208);
+  border-bottom: 1px solid rgb(211, 208, 208);
   margin: 1rem;
 }
 .bookInfoLf {
@@ -176,6 +190,8 @@ export default {
 }
 .bookInfoLf .bookname {
   /* margin-top: 2rem; */
+  font-family:'方正经黑手写简体' ;
+
   font-size: 2rem !important;
 }
 .bookInfoLf div {
@@ -193,5 +209,24 @@ export default {
 }
 .addBookBtn {
   margin-top: 1.5rem;
+}
+.info {
+  padding: 2rem;
+  margin: 10px auto;
+  width: 80%;
+  line-height: 2rem;
+
+}
+.info p:nth-child(1){
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-family:'方正经黑手写简体' ;
+}
+.info p:nth-child(2){
+  text-indent: 2em;
+  font-family:'方正经黑手写简体' ;
+
+  /* background-color: aqua; */
 }
 </style>

@@ -81,10 +81,14 @@ export default {
   font-size: 0.5em;
   margin-top: 7px;
   margin-left: 5px;
+  font-family:'方正经黑手写简体' ;
+
 }
 .shopCar {
   height: 100%;
   display: flex;
   align-items: center;
+  font-family:'方正经黑手写简体' ;
+
 }
 </style>

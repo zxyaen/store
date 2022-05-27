@@ -1,15 +1,15 @@
 <template>
   <div class="booksNew" id="booksNew">
-    <div class="wrap">
+    <!-- <div class="wrap"> -->
       <div class="book" @click="bookDetail">
         <img :src="goodItem.bookImg" />
         <div class="info">
           <div class="name">{{ goodItem.bookName }}</div>
           <!-- <div class="price">{{ goodItem.bookPrice }}¥</div> -->
         </div>
-      </div>
+      <!-- </div> -->
     </div>
-    <div class="price">{{ goodItem.bookPrice }} 元</div>
+    <!-- <div class="price">{{ goodItem.bookPrice }} 元</div> -->
   </div>
 </template>
 
@@ -44,11 +44,12 @@ export default {
 @media screen and (min-width: 600px) {
   .info {
     width: 100%;
+    margin-top: 0.4rem;
   }
   .info .name {
     font-size: 1.3rem;
     padding-left: 1.4rem;
-    padding-top: 0.8rem;
+    padding-top: 1.2rem;
     width: 90%;
     line-height: 2rem;
   }
@@ -75,6 +76,7 @@ h3 {
 }
 .price {
   position: absolute;
+  /* font-family:'方正经黑手写简体' ; */
 
   margin-left: 0.1rem;
   text-align: center;
@@ -82,7 +84,8 @@ h3 {
   right: 42%;
 }
 .name {
-
+  font-family:'方正经黑手写简体' ;
+  margin-top: 0.5rem;
   margin-left: 0.1rem;
   text-align: center;
 
