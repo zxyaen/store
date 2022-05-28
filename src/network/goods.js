@@ -63,6 +63,7 @@ export class DBbooks {
   constructor(DBbooks) {
     this.bookId = DBbooks.id;
     this.bookNum = DBbooks.buyNum;
+    this.bookName=DBbooks.name
   }
 };
 export class books {

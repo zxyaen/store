@@ -68,7 +68,7 @@ const routes = [
         }
     },
     {
-        path: '/check/:total',
+        path: '/check',
         name:'Check',
         component: Check
     },

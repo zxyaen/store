@@ -16,10 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="box">
-      <h1>总共消费 {{ total }} 元</h1>
-    </div>
-
+    <div class="box" ></div>
   </div>
 </template>
 
@@ -30,15 +27,21 @@ export default {
   name: "check",
   data() {
     return {
-      total: null,
+      payText: null,
     };
   },
-  components:{
+  // computed: {
+  //   payText() {
+  //     return this.$store.state.payText;
+  //   },
+  // },
+  components: {
     ShortCar,
   },
-  methods: {},
+
   created() {
-    this.total = this.$route.params.total;
+    console.log(sessionStorage.getItem("payText"));
+    this.payText = sessionStorage.getItem("payText");
   },
 };
 </script>
@@ -55,7 +58,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   height: 4em;
-  border-bottom:1px solid rgb(234, 231, 231) ;
+  border-bottom: 1px solid rgb(234, 231, 231);
 }
 .header .headerRight {
   display: flex;

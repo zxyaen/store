@@ -81,6 +81,13 @@
         >
       </p>
     </div>
+
+    <Confirm
+      v-show="isConfirm"
+      :bookInfo="bookInfo"
+      :allPrice="allPrice"
+      class="confirm"
+    />
   </div>
 </template>
 
@@ -89,6 +96,7 @@ import { mapState, mapMutations } from "vuex";
 import HeaderTop from "components/headerTop.vue";
 import ShortCar from "components/shortCar.vue";
 import { saveCart, DBbooks, getDbCart, bookInfo } from "@/network/goods";
+import Confirm from "./children/confirm.vue";
 
 export default {
   name: "ShoppingCart",
@@ -97,17 +105,17 @@ export default {
       num: 1,
       show: "",
       allDone: false,
-      bookInfo: [],
+      bookInfo: null,
       mes: null,
     };
   },
   components: {
     HeaderTop,
     ShortCar,
+    Confirm,
   },
   computed: {
-    ...mapState(["allPrice", "dbCartList", "cartList", "first"]),
-
+    ...mapState(["allPrice", "dbCartList", "cartList", "first", "isConfirm"]),
     // 计算总价格
     handleChange() {
       this.cartTotalPrice();
@@ -121,11 +129,11 @@ export default {
       return realVal;
     },
   },
-  created() {},
+
   mounted() {
     // 改变isHome值，使搜索框不被渲染
     this.IsHomeFalse();
-    console.log(this.cartList);
+    console.log("挂载完成" + this.cartList);
     this.saveDB(this.cartList);
   },
 
@@ -138,6 +146,9 @@ export default {
       "ChangeAllDone",
       "saveDbCart",
       "changeFirst",
+      "savePayText",
+      "ChangeIsConfirm",
+      "HiddenConfirm",
     ]),
 
     changeDone(id) {
@@ -197,20 +208,15 @@ export default {
       for (let i = 0; i < value.length; i++) {
         Books = Books.concat(new DBbooks(value[i]));
       }
-      saveCart(Books)
-        .then((res) => {
-          if (res.result === "ok") {
-            this.mes = "结算成功";
-            this.open();
-            this.$router.push("/check/" + this.allPrice);
-            return;
-          }
-        })
-        .catch((err) => {
-          this.mes = "出错啦";
-          this.open();
-          console.log(err);
-        });
+      console.log(Books);
+      this.bookInfo = Books;
+
+      if (Books.length !== 0) {
+        this.ChangeIsConfirm();
+      } else {
+        this.mes = "购物车为空";
+        this.open();
+      }
     },
 
     // 自动存储购物车内容到数据库
@@ -235,6 +241,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     this.saveDB(this.cartList);
+    this.HiddenConfirm();
     next();
   },
   watch: {
@@ -296,10 +303,6 @@ export default {
   border-bottom: solid 1px #ddd;
   text-align: center;
 }
-/* .shoppingCart span {
-  float: right;
-  padding-right: 15px;
-} */
 
 .shoppingCart img {
   width: 60px;
@@ -343,5 +346,21 @@ export default {
 }
 .goodsList {
   height: 6rem;
+}
+.confirm {
+  position: fixed;
+  z-index: 9999;
+  top: 10%;
+  left: 0px;
+  right: 0px;
+  width: 500px;
+  height: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+  border-radius: 20px;
+   box-shadow:5px 5px 10px 5px #ccc;
+  background-color: #d3dce6;
+  overflow: auto;
 }
 </style>

@@ -101,7 +101,6 @@ export default {
         bookInfo.buyNum = this.buyNum;
 
         // 将信息添加到vuex中托管，进一步添加到购物车中
-        console.log("11");
         this.pushProductToCart(bookInfo);
         // this.$store.commit("pushProductToCart", bookInfo);
         this.saveDB(this.cartList);

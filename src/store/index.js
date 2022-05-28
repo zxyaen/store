@@ -2,7 +2,21 @@ import Vue from 'vue';
 
 import Vuex from 'vuex';
 
+// 借助插件实现vuex数据持久化
+import VuexPersistence from 'vuex-persist'
+
 Vue.use(Vuex)
+
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage,
+    reducer(state){
+        return {
+          // 只储存state中的count
+          cartList: state.cartList
+        }
+      }
+})
+
 export default new Vuex.Store({
     state: { // 存放数据 和data类似
 
@@ -16,13 +30,24 @@ export default new Vuex.Store({
         isLogin: false,
 
         // 暂时存放数据库的用户购物车信息
-        dbCartList: [],
+        // dbCartList: [],
 
         // 购物车是否为第一次加载
-        first:true
+        first: true,
+
+        // 购物车结算弹窗是否显示
+        isConfirm: false
 
     },
     mutations: { // 用来修改state和getters里面的数据
+        // 改变isConfirm
+        ChangeIsConfirm(state) {
+            state.isConfirm = true
+        },
+        HiddenConfirm(state){
+            state.isConfirm=false
+        },
+
         // 点击复选框，更改done
         ChangeDone(state, id) {
             state.cartList.forEach((item) => {
@@ -52,8 +77,8 @@ export default new Vuex.Store({
             state.cartList = state.cartList.concat(value)
         },
 
-        changeFirst(state){
-            state.first=false
+        changeFirst(state) {
+            state.first = false
         },
         // 改变isLogin登录标识符
         changeIsLogin(state, flag) {
@@ -120,5 +145,6 @@ export default new Vuex.Store({
         // }
     },
     modules: {// 拆分模块
-    }
+    },
+    plugins: [vuexLocal.plugin]
 })

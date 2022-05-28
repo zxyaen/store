@@ -168,7 +168,7 @@ export default {
                   this.message = "登录成功";
                   this.successNotification();
 
-                  this.$router.push("/home");
+                  this.$router.push("/");
 
                   this.getDbCart();
                   return;
